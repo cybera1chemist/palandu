@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f6f8">
+    <title>登录 - 帕拉恩度</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+  </head>
+  <body class="login-page">
+    <main class="login-card">
+      <img class="login-logo" src="./assets/images/Logo.png" alt="帕拉恩度 Logo">
+      <h1>帕拉恩度</h1>
+      <form id="login-form">
+        <label for="account-id">账号</label>
+        <input id="account-id" name="account-id" type="text" autocomplete="username" required>
+        <label for="account-password">密码</label>
+        <input id="account-password" name="account-password" type="password" autocomplete="current-password" required>
+        <p class="form-message" id="form-message" role="alert" aria-live="polite"></p>
+        <button class="primary-button" type="submit">登录</button>
+      </form>
+    </main>
+    <script type="module" src="./assets/js/login.js"></script>
+  </body>
+</html>

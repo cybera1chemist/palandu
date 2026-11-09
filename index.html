@@ -3,15 +3,52 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Palandu</title>
+    <meta name="theme-color" content="#f7f6f8">
+    <title>帕拉恩度</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
   </head>
-  <body>
-    <main>
-        <p>
-            当你看到这个页面，说明你已经通关了本次测试的全部内容。
-            恭喜！
-            这个网址之后会被做成帕拉恩度组织的内网，游戏的下一阶段将主要在此进行。敬请期待~
-        </p>
-    </main>
+  <body class="home-page">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="帕拉恩度主页">
+        <img src="./assets/images/Logo.png" alt="帕拉恩度 Logo">
+      </a>
+      <div class="user-avatar" id="user-avatar" aria-label="当前用户"></div>
+    </header>
+
+    <div class="page-layout">
+      <aside class="sidebar" aria-label="主导航">
+        <nav class="navigation">
+          <button class="nav-item is-active" type="button" data-section="主页">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+            <span>主页</span>
+          </button>
+          <button class="nav-item" type="button" data-section="公告">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13V8a2 2 0 0 1 2-2h3l8-3v17l-8-3H6a2 2 0 0 1-2-2v-2m4 1 2 6m7-13h2a2 2 0 0 1 0 8h-2"/></svg>
+            <span>公告</span>
+          </button>
+          <button class="nav-item" type="button" data-section="空间">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
+            <span>空间</span>
+          </button>
+          <button class="nav-item" type="button" data-section="消息">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-6a7.5 7.5 0 1 1 17-3.5Z"/></svg>
+            <span>消息</span>
+          </button>
+          <button class="nav-item" type="button" data-section="我">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span>我</span>
+          </button>
+        </nav>
+        <button class="nav-item logout-button" id="logout-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5m5 5H3m9-9h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg>
+          <span>退出登录</span>
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <h1 id="section-title">主页</h1>
+      </main>
+    </div>
+    <script type="module" src="./assets/js/home.js"></script>
   </body>
 </html>
