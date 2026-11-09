@@ -1,4 +1,4 @@
-import { clearUserCookie, getCurrentUser } from "./auth.js";
+import { clearUserCookie, getCurrentUser, renderAvatar } from "./auth.js";
 
 const sectionTitle = document.querySelector("#section-title");
 const avatar = document.querySelector("#user-avatar");
@@ -9,8 +9,7 @@ try {
   if (!currentUser) {
     window.location.replace("./login.html");
   } else {
-    avatar.textContent = currentUser.profile.nickname.slice(0, 1);
-    avatar.title = currentUser.profile.nickname;
+    renderAvatar(avatar, currentUser.directory, currentUser.profile.nickname);
   }
 } catch (error) {
   sectionTitle.textContent = error.message;

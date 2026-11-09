@@ -1,10 +1,15 @@
-import { findMatchingUser, getCurrentUser, setUserCookie } from "./auth.js";
+import { findMatchingUser, getCurrentUser, renderAvatar, setUserCookie } from "./auth.js";
 
 const form = document.querySelector("#login-form");
 const idInput = document.querySelector("#account-id");
 const passwordInput = document.querySelector("#account-password");
 const message = document.querySelector("#form-message");
 const submitButton = form.querySelector("button[type='submit']");
+const logo = document.querySelector(".login-logo");
+const heading = document.querySelector(".login-card h1");
+const welcomeState = document.querySelector("#welcome-state");
+const welcomeAvatar = document.querySelector("#welcome-avatar");
+const welcomeMessage = document.querySelector("#welcome-message");
 
 try {
   if (await getCurrentUser()) {
@@ -27,6 +32,13 @@ form.addEventListener("submit", async (event) => {
     }
 
     setUserCookie(user.directory);
+    logo.hidden = true;
+    heading.hidden = true;
+    form.hidden = true;
+    welcomeMessage.textContent = `欢迎回来，${user.profile.nickname}`;
+    welcomeState.hidden = false;
+    renderAvatar(welcomeAvatar, user.directory, user.profile.nickname);
+    await new Promise((resolve) => window.setTimeout(resolve, 1000));
     window.location.replace("./index.html");
   } catch (error) {
     message.textContent = error.message;

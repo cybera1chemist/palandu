@@ -56,6 +56,21 @@ async function fetchUser(directory) {
   return profile;
 }
 
+function renderAvatar(element, directory, nickname) {
+  element.textContent = nickname.slice(0, 1);
+  element.title = nickname;
+  element.setAttribute("aria-label", nickname);
+
+  const image = new Image();
+  image.alt = "";
+  image.addEventListener("load", () => {
+    element.textContent = "";
+    element.append(image);
+  }, { once: true });
+  image.addEventListener("error", () => image.remove(), { once: true });
+  image.src = new URL(`../../data/${encodeURIComponent(directory)}/avatar.png`, import.meta.url).href;
+}
+
 export async function findMatchingUser(id, password) {
   const directories = await fetchUserDirectories();
   const profiles = await Promise.all(directories.map(async (directory) => ({
@@ -78,4 +93,4 @@ export async function getCurrentUser() {
   return { directory, profile: await fetchUser(directory) };
 }
 
-export { clearUserCookie, readUserCookie, setUserCookie };
+export { clearUserCookie, readUserCookie, renderAvatar, setUserCookie };
