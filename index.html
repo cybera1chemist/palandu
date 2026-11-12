@@ -51,9 +51,7 @@
           <div class="dashboard-grid">
             <section class="dashboard-card" aria-labelledby="recent-announcements-title">
               <h2 id="recent-announcements-title">最近公告</h2>
-              <ul class="recent-list">
-                <li class="empty-state">暂无公告</li>
-              </ul>
+              <ul class="recent-list" id="recent-announcements"></ul>
               <div class="card-footer">
                 <button class="text-button" type="button" data-open-section="公告">查看全部公告</button>
               </div>
@@ -69,6 +67,11 @@
               </div>
             </section>
           </div>
+        </section>
+
+        <section class="announcements-view" id="announcements-view" aria-labelledby="section-title" hidden>
+          <h1 id="section-title">公告</h1>
+          <ul class="announcement-list" id="announcement-list"></ul>
         </section>
 
         <section class="profile-view" id="profile-view" aria-labelledby="profile-nickname" hidden>
@@ -114,7 +117,7 @@
         </section>
 
         <section class="placeholder-view" id="placeholder-view" hidden>
-          <h1 id="section-title"></h1>
+          <h1 id="placeholder-title"></h1>
         </section>
       </main>
     </div>

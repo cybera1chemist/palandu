@@ -196,6 +196,33 @@ button {
   font-size: 14px;
 }
 
+.recent-announcement {
+  display: grid;
+  gap: 7px;
+}
+
+.recent-announcement h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recent-announcement p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.announcement-time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .card-footer {
   display: flex;
   justify-content: flex-end;
@@ -305,6 +332,67 @@ button {
 
 .page-error {
   color: #a04444;
+}
+
+.announcements-view > h1 {
+  margin-bottom: 22px;
+}
+
+.announcement-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.announcement-card {
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.announcement-card h2 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.announcement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.announcement-body {
+  margin-top: 18px;
+  color: #46414a;
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.announcement-body p {
+  margin: 0 0 12px;
+}
+
+.announcement-body p:last-child {
+  margin-bottom: 0;
+}
+
+.announcement-body ul {
+  display: grid;
+  gap: 7px;
+  margin: 10px 0 14px;
+  padding-left: 22px;
+}
+
+.announcement-body strong {
+  color: #39343d;
 }
 
 .login-page {
@@ -499,6 +587,10 @@ button {
 
   .profile-details {
     padding: 6px 18px;
+  }
+
+  .announcement-card {
+    padding: 20px;
   }
 
   .profile-row {

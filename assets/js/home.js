@@ -1,10 +1,12 @@
 import { clearUserCookie, getCurrentUser, renderAvatar } from "./auth.js";
+import { loadAnnouncements, renderAnnouncementList } from "./announcements.js";
 
 const mainContent = document.querySelector(".main-content");
 const homeView = document.querySelector("#home-view");
+const announcementsView = document.querySelector("#announcements-view");
 const profileView = document.querySelector("#profile-view");
 const placeholderView = document.querySelector("#placeholder-view");
-const sectionTitle = document.querySelector("#section-title");
+const placeholderTitle = document.querySelector("#placeholder-title");
 const topbarAvatar = document.querySelector("#user-avatar");
 const profileAvatar = document.querySelector("#profile-avatar");
 const navItems = document.querySelectorAll(".nav-item[data-section]");
@@ -14,10 +16,11 @@ function renderSection(section) {
     item.classList.toggle("is-active", item.dataset.section === section);
   });
   homeView.hidden = section !== "主页";
+  announcementsView.hidden = section !== "公告";
   profileView.hidden = section !== "我";
-  placeholderView.hidden = section === "主页" || section === "我";
+  placeholderView.hidden = !["空间", "消息"].includes(section);
   if (!placeholderView.hidden) {
-    sectionTitle.textContent = section;
+    placeholderTitle.textContent = section;
   }
 }
 
@@ -72,6 +75,26 @@ try {
     navItems.forEach((item) => {
       item.addEventListener("click", () => renderSection(item.dataset.section));
     });
+
+    try {
+      const announcements = await loadAnnouncements(currentUser.profile);
+      renderAnnouncementList(
+        document.querySelector("#recent-announcements"),
+        announcements,
+        { preview: true }
+      );
+      renderAnnouncementList(
+        document.querySelector("#announcement-list"),
+        announcements
+      );
+    } catch (error) {
+      const message = document.createElement("li");
+      message.className = "page-error";
+      message.setAttribute("role", "alert");
+      message.textContent = error.message;
+      document.querySelector("#recent-announcements").replaceChildren(message.cloneNode(true));
+      document.querySelector("#announcement-list").replaceChildren(message);
+    }
   }
 } catch (error) {
   const errorMessage = document.createElement("p");
