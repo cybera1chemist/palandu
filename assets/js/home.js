@@ -1,9 +1,11 @@
 import { clearUserCookie, getCurrentUser, renderAvatar } from "./auth.js";
 import { loadAnnouncements, renderAnnouncementList } from "./announcements.js";
+import { initializeWorkspace } from "./workspace.js";
 
 const mainContent = document.querySelector(".main-content");
 const homeView = document.querySelector("#home-view");
 const announcementsView = document.querySelector("#announcements-view");
+const workspaceView = document.querySelector("#workspace-view");
 const profileView = document.querySelector("#profile-view");
 const placeholderView = document.querySelector("#placeholder-view");
 const placeholderTitle = document.querySelector("#placeholder-title");
@@ -17,11 +19,25 @@ function renderSection(section) {
   });
   homeView.hidden = section !== "主页";
   announcementsView.hidden = section !== "公告";
+  workspaceView.hidden = section !== "空间";
   profileView.hidden = section !== "我";
-  placeholderView.hidden = !["空间", "消息"].includes(section);
+  placeholderView.hidden = section !== "消息";
   if (!placeholderView.hidden) {
     placeholderTitle.textContent = section;
   }
+}
+
+function navigateToAnnouncement(id) {
+  renderSection("公告");
+  requestAnimationFrame(() => {
+    const target = Array.from(document.querySelectorAll("[data-announcement-id]"))
+      .find((item) => item.dataset.announcementId === id);
+    if (!target) return;
+    target.scrollIntoView({ block: "start", behavior: "smooth" });
+    target.focus({ preventScroll: true });
+    target.classList.add("is-targeted");
+    window.setTimeout(() => target.classList.remove("is-targeted"), 1800);
+  });
 }
 
 function renderProfile(directory, profile) {
@@ -77,11 +93,31 @@ try {
     });
 
     try {
+      let navigateToWorkspaceItem = () => false;
+      navigateToWorkspaceItem = await initializeWorkspace(
+        currentUser.directory,
+        document.querySelector("#workspace-breadcrumbs"),
+        document.querySelector("#workspace-items"),
+        document.querySelector("#recent-files"),
+        (id) => {
+          renderSection("空间");
+          navigateToWorkspaceItem(id);
+        }
+      );
+    } catch (error) {
+      const workspaceError = document.createElement("p");
+      workspaceError.className = "page-error";
+      workspaceError.setAttribute("role", "alert");
+      workspaceError.textContent = error.message;
+      document.querySelector("#workspace-items").replaceChildren(workspaceError);
+    }
+
+    try {
       const announcements = await loadAnnouncements(currentUser.profile);
       renderAnnouncementList(
         document.querySelector("#recent-announcements"),
         announcements,
-        { preview: true }
+        { preview: true, onSelect: navigateToAnnouncement }
       );
       renderAnnouncementList(
         document.querySelector("#announcement-list"),

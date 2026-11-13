@@ -193,21 +193,89 @@ button {
 
 .empty-state {
   color: var(--muted);
+  font-size: 18px;
+}
+
+.recent-file {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.recent-file:hover,
+.recent-announcement-card:hover {
+  border-color: #d7c9df;
+  background: #fbf9fc;
+}
+
+.recent-file:focus-visible,
+.recent-announcement-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.recent-file svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.recent-file-title {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
   font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-item-creator {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .recent-announcement {
-  display: grid;
-  gap: 7px;
+  min-width: 0;
 }
 
-.recent-announcement h3 {
+.recent-announcement-card {
+  display: grid;
+  width: 100%;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.recent-announcement-card h3 {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
 }
 
-.recent-announcement p {
+.recent-announcement-card p {
   display: -webkit-box;
   overflow: hidden;
   margin: 0;
@@ -332,6 +400,165 @@ button {
 
 .page-error {
   color: #a04444;
+}
+
+.workspace-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  margin-bottom: 18px;
+}
+
+.workspace-breadcrumb {
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: #765d84;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.workspace-breadcrumb:hover {
+  text-decoration: underline;
+}
+
+.workspace-breadcrumb[aria-current="page"] {
+  color: var(--muted);
+  cursor: default;
+  text-decoration: none;
+}
+
+.workspace-breadcrumb-separator {
+  color: #b7b1bb;
+  font-size: 13px;
+}
+
+.workspace-items {
+  min-height: 280px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.workspace-item {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid #efecf1;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+}
+
+.workspace-item svg {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  fill: none;
+  stroke: #8d7999;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.workspace-item svg.workspace-file-icon,
+.recent-file svg.workspace-file-icon {
+  stroke-width: 1.8;
+}
+
+.workspace-item svg.workspace-file-icon--document,
+.recent-file svg.workspace-file-icon--document {
+  stroke: #4285f4;
+}
+
+.workspace-item svg.workspace-file-icon--spreadsheet,
+.recent-file svg.workspace-file-icon--spreadsheet {
+  stroke: #34a853;
+}
+
+.workspace-item-details {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.workspace-item-title {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+}
+
+.folder-item {
+  cursor: pointer;
+}
+
+.folder-item:hover {
+  border-color: #d7c9df;
+  background: #fbf9fc;
+}
+
+.folder-item:focus-visible,
+.workspace-breadcrumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.file-item {
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.file-item:hover {
+  border-color: #d7c9df;
+  background: #fbf9fc;
+}
+
+.file-item .workspace-item-title {
+  color: #57515c;
+}
+
+.file-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.file-item.is-targeted,
+.announcement-card.is-targeted {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(169, 136, 185, 0.18);
+}
+
+.announcement-card {
+  scroll-margin-top: 20px;
+}
+
+.workspace-empty-state {
+  display: grid;
+  min-height: 238px;
+  place-items: center;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
 }
 
 .announcements-view > h1 {

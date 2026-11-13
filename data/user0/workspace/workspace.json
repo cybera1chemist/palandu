@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": "threat-assessment-table",
+      "type": "file",
+      "title": "炼金术师威胁等级评定总表",
+      "fileType": "spreadsheet",
+      "openable": false,
+      "shared": true,
+      "creator": "圣杯皇后"
+    },
+    {
+      "id": "alchemist-forum-report",
+      "type": "file",
+      "title": "炼金术师论坛潜伏报告",
+      "fileType": "document",
+      "openable": false,
+      "shared": true,
+      "creator": "硫磺火"
+    },
+    {
+      "id": "recycle-bin",
+      "type": "folder",
+      "name": "回收站",
+      "items": []
+    }
+  ]
+}

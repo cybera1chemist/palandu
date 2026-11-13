@@ -118,7 +118,11 @@ function createAnnouncementBody(announcement) {
   return body;
 }
 
-export function renderAnnouncementList(container, announcements, { preview = false } = {}) {
+export function renderAnnouncementList(
+  container,
+  announcements,
+  { preview = false, onSelect } = {}
+) {
   container.replaceChildren();
 
   if (announcements.length === 0) {
@@ -135,6 +139,9 @@ export function renderAnnouncementList(container, announcements, { preview = fal
       const item = document.createElement("li");
       item.className = "recent-announcement";
 
+      const card = document.createElement("button");
+      card.className = "recent-announcement-card";
+      card.type = "button";
       const title = document.createElement("h3");
       title.textContent = announcement.title;
       const excerpt = document.createElement("p");
@@ -143,13 +150,17 @@ export function renderAnnouncementList(container, announcements, { preview = fal
       published.className = "announcement-time";
       published.textContent = announcement.published.label;
 
-      item.append(title, excerpt, published);
+      card.append(title, excerpt, published);
+      card.addEventListener("click", () => onSelect?.(announcement.id));
+      item.append(card);
       container.append(item);
       return;
     }
 
     const article = document.createElement("li");
     article.className = "announcement-card";
+    article.dataset.announcementId = announcement.id;
+    article.tabIndex = -1;
 
     const heading = document.createElement("h2");
     heading.textContent = announcement.title;

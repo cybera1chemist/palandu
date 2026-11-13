@@ -59,9 +59,7 @@
 
             <section class="dashboard-card" aria-labelledby="recent-files-title">
               <h2 id="recent-files-title">最近文件</h2>
-              <ul class="recent-list">
-                <li class="empty-state">暂无文件</li>
-              </ul>
+              <ul class="recent-list" id="recent-files"></ul>
               <div class="card-footer">
                 <button class="text-button" type="button" data-open-section="空间">查看全部文件</button>
               </div>
@@ -72,6 +70,11 @@
         <section class="announcements-view" id="announcements-view" aria-labelledby="section-title" hidden>
           <h1 id="section-title">公告</h1>
           <ul class="announcement-list" id="announcement-list"></ul>
+        </section>
+
+        <section class="workspace-view" id="workspace-view" aria-label="空间" hidden>
+          <nav class="workspace-breadcrumbs" id="workspace-breadcrumbs" aria-label="文件夹路径"></nav>
+          <div class="workspace-items" id="workspace-items" aria-live="polite"></div>
         </section>
 
         <section class="profile-view" id="profile-view" aria-labelledby="profile-nickname" hidden>
