@@ -29,9 +29,37 @@ function validateConversation(conversation) {
   });
 }
 
-async function loadConversation(directory) {
+async function loadMessageList(directory) {
   const url = new URL(
-    `../../data/${encodeURIComponent(directory)}/msg/msg-0.json`,
+    `../../data/${encodeURIComponent(directory)}/msg/messages.json`,
+    import.meta.url
+  );
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`无法读取消息列表（HTTP ${response.status}）。`);
+  }
+
+  const messageList = await response.json();
+  if (
+    !Array.isArray(messageList?.items) ||
+    !messageList.items.every((item) =>
+      item?.openable === true
+        ? typeof item.file === "string" && /^[\w-]+\.json$/.test(item.file)
+        : item?.openable === false &&
+          typeof item.name === "string" &&
+          typeof item.avatar === "string" &&
+          item.avatar.startsWith("assets/images/") &&
+          typeof item.preview === "string"
+    )
+  ) {
+    throw new Error("消息列表格式无效。");
+  }
+  return messageList.items;
+}
+
+async function loadConversation(directory, filename) {
+  const url = new URL(
+    `../../data/${encodeURIComponent(directory)}/msg/${encodeURIComponent(filename)}`,
     import.meta.url
   );
   const response = await fetch(url);
@@ -146,54 +174,98 @@ function renderMessages(conversation, self, contact, chatMessages, dialog) {
 }
 
 export async function initializeMessages(directory, self, elements) {
-  const conversation = await loadConversation(directory);
-  if (!conversation.messages.every((message) =>
-    message.senderId === self.id || message.senderId === conversation.participantId
-  )) {
-    throw new Error("对话中包含未知的发送者。");
-  }
+  const entries = await loadMessageList(directory);
+  const conversations = await Promise.all(entries.map(async (entry) => {
+    if (!entry.openable) return { entry, conversation: null, contact: null };
 
-  const contact = await getUserById(conversation.participantId);
-  if (!contact) {
-    throw new Error("无法找到该对话成员的账号资料。");
-  }
+    const conversation = await loadConversation(directory, entry.file);
+    if (!conversation.messages.every((message) =>
+      message.senderId === self.id || message.senderId === conversation.participantId
+    )) {
+      throw new Error("对话中包含未知的发送者。");
+    }
 
-  const conversationButton = document.createElement("button");
-  conversationButton.className = "conversation-item is-active";
-  conversationButton.type = "button";
-  const avatar = document.createElement("div");
-  avatar.className = "user-avatar conversation-avatar";
-  renderAvatar(avatar, contact.directory, contact.profile.nickname);
-  const details = document.createElement("span");
-  details.className = "conversation-details";
-  const name = document.createElement("span");
-  name.className = "conversation-name";
-  name.textContent = contact.profile.nickname;
-  const preview = document.createElement("span");
-  preview.className = "conversation-preview";
-  const lastMessage = conversation.messages[conversation.messages.length - 1];
-  preview.textContent = lastMessage ? getMessagePreview(lastMessage, self.id === lastMessage.senderId ? self : contact.profile) : "";
-  details.append(name, preview);
-  conversationButton.append(avatar, details);
+    const contact = await getUserById(conversation.participantId);
+    if (!contact) {
+      throw new Error("无法找到该对话成员的账号资料。");
+    }
+    return { entry, conversation, contact };
+  }));
 
-  conversationButton.addEventListener("click", () => {
+  elements.conversationList.replaceChildren();
+
+  function selectConversation(selected) {
     elements.conversationList.querySelectorAll(".conversation-item")
-      .forEach((item) => item.classList.remove("is-active"));
-    conversationButton.classList.add("is-active");
-    elements.contactName.textContent = contact.profile.nickname;
-    renderMessages(conversation, self, {
-      ...contact,
+      .forEach((item) => item.classList.toggle("is-active", item === selected.button));
+    elements.contactName.textContent = selected.contact.profile.nickname;
+    renderAvatar(
+      elements.contactAvatar,
+      selected.contact.directory,
+      selected.contact.profile.nickname
+    );
+    renderMessages(selected.conversation, self, {
+      ...selected.contact,
       selfDirectory: directory,
     }, elements.chatMessages, elements.downloadDialog);
+  }
+
+  conversations.forEach((item) => {
+    const button = document.createElement("button");
+    button.className = "conversation-item";
+    button.type = "button";
+    const avatar = document.createElement("span");
+    avatar.className = "user-avatar conversation-avatar";
+    const details = document.createElement("span");
+    details.className = "conversation-details";
+    const name = document.createElement("span");
+    name.className = "conversation-name";
+    const preview = document.createElement("span");
+    preview.className = "conversation-preview";
+
+    if (item.entry.openable) {
+      name.textContent = item.contact.profile.nickname;
+      const lastMessage = item.conversation.messages[item.conversation.messages.length - 1];
+      preview.textContent = lastMessage
+        ? getMessagePreview(
+          lastMessage,
+          lastMessage.senderId === self.id ? self : item.contact.profile
+        )
+        : "暂无消息";
+      renderAvatar(avatar, item.contact.directory, item.contact.profile.nickname);
+    } else {
+      const image = document.createElement("img");
+      image.className = "conversation-group-avatar";
+      image.src = new URL(`../../${item.entry.avatar}`, import.meta.url).href;
+      image.alt = "";
+      avatar.append(image);
+      name.textContent = item.entry.name;
+      preview.textContent = item.entry.preview;
+      button.setAttribute("aria-disabled", "true");
+    }
+
+    details.append(name, preview);
+    button.append(avatar, details);
+    elements.conversationList.append(button);
+    item.button = button;
+
+    if (item.entry.openable) {
+      button.addEventListener("click", () => selectConversation(item));
+    }
   });
 
-  elements.conversationList.replaceChildren(conversationButton);
-  elements.contactName.textContent = contact.profile.nickname;
-  renderAvatar(elements.contactAvatar, contact.directory, contact.profile.nickname);
-  renderMessages(conversation, self, {
-    ...contact,
-    selfDirectory: directory,
-  }, elements.chatMessages, elements.downloadDialog);
+  const firstWithContent = conversations.find((item) =>
+    item.entry.openable && item.conversation.messages.length > 0
+  );
+  if (firstWithContent) {
+    selectConversation(firstWithContent);
+  } else {
+    elements.contactAvatar.replaceChildren();
+    elements.contactName.textContent = "";
+    const empty = document.createElement("li");
+    empty.className = "chat-empty-state";
+    empty.textContent = "暂无可打开的对话";
+    elements.chatMessages.replaceChildren(empty);
+  }
 
   elements.downloadCancel.addEventListener("click", () => elements.downloadDialog.close());
   elements.downloadConfirm.addEventListener("click", () => {
