@@ -5,6 +5,10 @@ function validateConversation(conversation) {
     !conversation ||
     typeof conversation.id !== "string" ||
     typeof conversation.participantId !== "string" ||
+    (conversation.participant !== undefined &&
+      (typeof conversation.participant?.nickname !== "string" ||
+        typeof conversation.participant?.avatar !== "string" ||
+        !/^assets\/images\/avatars\/[^/\\]+\.png$/.test(conversation.participant.avatar))) ||
     !Array.isArray(conversation.messages)
   ) {
     throw new Error("消息数据格式无效。");
@@ -82,6 +86,25 @@ function createFileIcon() {
   return icon;
 }
 
+function renderContactAvatar(element, contact) {
+  if (!contact.avatar) {
+    renderAvatar(element, contact.directory, contact.profile.nickname);
+    return;
+  }
+
+  element.textContent = contact.profile.nickname.slice(0, 1);
+  element.title = contact.profile.nickname;
+  element.setAttribute("aria-label", contact.profile.nickname);
+
+  const image = new Image();
+  image.alt = "";
+  image.addEventListener("load", () => {
+    element.textContent = "";
+    element.append(image);
+  }, { once: true });
+  image.src = new URL(`../../${contact.avatar}`, import.meta.url).href;
+}
+
 function getMessagePreview(message, sender) {
   if (message.type === "file") return `${sender.nickname} 发送了文件`;
   return message.text;
@@ -149,7 +172,11 @@ function renderMessages(conversation, self, contact, chatMessages, dialog) {
 
     const avatar = document.createElement("div");
     avatar.className = "user-avatar message-avatar";
-    renderAvatar(avatar, senderDirectory, sender.nickname);
+    if (isOwn) {
+      renderAvatar(avatar, senderDirectory, sender.nickname);
+    } else {
+      renderContactAvatar(avatar, contact);
+    }
 
     const content = document.createElement("div");
     content.className = "chat-message-content";
@@ -185,9 +212,18 @@ export async function initializeMessages(directory, self, elements) {
       throw new Error("对话中包含未知的发送者。");
     }
 
-    const contact = await getUserById(conversation.participantId);
+    let contact = await getUserById(conversation.participantId);
     if (!contact) {
-      throw new Error("无法找到该对话成员的账号资料。");
+      if (!conversation.participant) {
+        throw new Error("无法找到该对话成员的账号资料。");
+      }
+      contact = {
+        profile: {
+          id: conversation.participantId,
+          nickname: conversation.participant.nickname,
+        },
+        avatar: conversation.participant.avatar,
+      };
     }
     return { entry, conversation, contact };
   }));
@@ -198,11 +234,7 @@ export async function initializeMessages(directory, self, elements) {
     elements.conversationList.querySelectorAll(".conversation-item")
       .forEach((item) => item.classList.toggle("is-active", item === selected.button));
     elements.contactName.textContent = selected.contact.profile.nickname;
-    renderAvatar(
-      elements.contactAvatar,
-      selected.contact.directory,
-      selected.contact.profile.nickname
-    );
+    renderContactAvatar(elements.contactAvatar, selected.contact);
     renderMessages(selected.conversation, self, {
       ...selected.contact,
       selfDirectory: directory,
@@ -231,7 +263,7 @@ export async function initializeMessages(directory, self, elements) {
           lastMessage.senderId === self.id ? self : item.contact.profile
         )
         : "暂无消息";
-      renderAvatar(avatar, item.contact.directory, item.contact.profile.nickname);
+      renderContactAvatar(avatar, item.contact);
     } else {
       const image = document.createElement("img");
       image.className = "conversation-group-avatar";

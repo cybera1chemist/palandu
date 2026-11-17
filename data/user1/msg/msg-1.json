@@ -1,0 +1,87 @@
+{
+  "id": "msg-1",
+  "participantId": "external-mengmeng",
+  "participant": {
+    "nickname": "全宇宙超级无敌第一萌☆彡꒰ঌ( ✩ ▽ ✩ )໒꒱彡☆",
+    "avatar": "assets/images/avatars/萌萌小兔兔宝宝.png"
+  },
+  "messages": [
+    {
+      "id": "greeting",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "你好呀，你好呀"
+    },
+    {
+      "id": "who-are-you",
+      "dateLabel": "今天",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "你是谁呀"
+    },
+    {
+      "id": "introduction",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "我是萌萌小兔兔宝宝呀，你不记得我了嘛"
+    },
+    {
+      "id": "how-did-you-get-here",
+      "dateLabel": "今天",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "为什么你会出现在我们帕拉恩度的内网呀，你怎么进来的呀"
+    },
+    {
+      "id": "found-the-site",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "因为我早就发现你是间谍了，所以偷偷追踪你的电脑，发现了这个网站"
+    },
+    {
+      "id": "oh",
+      "dateLabel": "今天",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "哦"
+    },
+    {
+      "id": "test-ended",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "当你看到这条对话的时候，说明本次测试已经结束啦"
+    },
+    {
+      "id": "what-test",
+      "dateLabel": "今天",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "什么本次测试？"
+    },
+    {
+      "id": "speaking-to-player",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "我是在跟玩家说话呢"
+    },
+    {
+      "id": "alright",
+      "dateLabel": "今天",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "好吧"
+    },
+    {
+      "id": "goodbye",
+      "dateLabel": "今天",
+      "senderId": "external-mengmeng",
+      "type": "text",
+      "text": "感谢游玩，下次见，拜拜~"
+    }
+  ]
+}

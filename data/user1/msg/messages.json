@@ -9,6 +9,12 @@
       "name": "圣杯四（6）",
       "avatar": "assets/images/avatars/群聊.png",
       "preview": "收到"
+    },
+
+    {
+      "openable": true,
+      "file": "msg-1.json"
     }
+
   ]
 }
