@@ -1,0 +1,205 @@
+{
+  "id": "msg-0",
+  "participantId": "42305923",
+  "messages": [
+    {
+      "id": "welcome",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "欢迎欢迎！"
+    },
+    {
+      "id": "greeting",
+      "dateLabel": "一年零四个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "你好呀。"
+    },
+    {
+      "id": "introduction",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "我先自我介绍一下吧，我和你一样，同属圣杯部门，是你所在的圣杯四小组的组长。"
+    },
+    {
+      "id": "staff-guide",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "file",
+      "file": {
+        "path": "files/员工入职手册_修改版.pdf",
+        "nameTemplate": "palandu_organization_new_staff_guidance_file_send_to_user_{recipientId}_sent_from_{senderId}_password_{senderPassword}.pdf"
+      }
+    },
+    {
+      "id": "staff-guide-note",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "这是组织的员工入职手册，你读完之后如果有不明白的地方，随时问我~"
+    },
+    {
+      "id": "thanks",
+      "dateLabel": "一年零四个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "好的，谢谢组长。"
+    },
+    {
+      "id": "courtesy",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "不用这么客气~"
+    },
+    {
+      "id": "group-chat",
+      "dateLabel": "一年零四个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "我拉你进我们组的群聊，之后群里会发布大家的具体工作安排。"
+    },
+    {
+      "id": "group-chat-reply",
+      "dateLabel": "一年零四个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "好的。"
+    },
+    {
+      "id": "new-assignment",
+      "dateLabel": "一年零三个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "上层觉得，只有我一个人潜伏在炼金术师的地下论坛，每天要审查的内容太多了，有点忙不过来，所以安排你和我一起执行这项工作。"
+    },
+    {
+      "id": "assignment-reply",
+      "dateLabel": "一年零三个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "好呀！感觉这项新工作会很有趣。"
+    },
+    {
+      "id": "expired-invitation",
+      "dateLabel": "一年零三个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "[链接已过期]"
+    },
+    {
+      "id": "invitation-instructions",
+      "dateLabel": "一年零三个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "这个论坛只能通过内部成员邀请的方式加入，你点进去这个链接后，按照里面的流程指引注册账号就好啦。"
+    },
+    {
+      "id": "careful-community",
+      "dateLabel": "一年零三个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "他们藏得还挺严的。"
+    },
+    {
+      "id": "infiltration",
+      "dateLabel": "一年零三个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "还不是被我们组织渗透进去了，哼哼。"
+    },
+    {
+      "id": "registration-deadline",
+      "dateLabel": "一年零三个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "记得在24小时内完成注册呀，否则这个邀请链接就失效了。"
+    },
+    {
+      "id": "registration-confirmation",
+      "dateLabel": "一年零三个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "你放心。"
+    },
+    {
+      "id": "login-greeting",
+      "dateLabel": "七个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "哈喽哈喽"
+    },
+    {
+      "id": "login-reply",
+      "dateLabel": "七个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "哈喽"
+    },
+    {
+      "id": "login-success",
+      "dateLabel": "七个月前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "终于能登录上了！之前真是吓死我了。"
+    },
+    {
+      "id": "login-response",
+      "dateLabel": "七个月前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "嘿嘿，问题解决了就好啦"
+    },
+    {
+      "id": "announcement-question",
+      "dateLabel": "5天前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "组长，你看到今天发的那条公告了吗？真没想到我们组织里面竟然会有叛徒。"
+    },
+    {
+      "id": "announcement-response",
+      "dateLabel": "5天前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "是啊，谁能想到呢！怎么会有人去跟邪恶的炼金术师勾结！"
+    },
+    {
+      "id": "traitor-condemnation",
+      "dateLabel": "5天前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "该死的叛徒，太可恶了，竟敢背叛组织！"
+    },
+    {
+      "id": "investigation",
+      "dateLabel": "5天前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "这件事应该会由我们部门的其他小组去查，我们做好本职工作就行。"
+    },
+    {
+      "id": "agree",
+      "dateLabel": "5天前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "有道理。"
+    },
+    {
+      "id": "find-traitor",
+      "dateLabel": "5天前",
+      "senderId": "32465190",
+      "type": "text",
+      "text": "希望这个叛徒赶快被找出来！"
+    },
+    {
+      "id": "final-agreement",
+      "dateLabel": "5天前",
+      "senderId": "42305923",
+      "type": "text",
+      "text": "组长说的对！"
+    }
+  ]
+}

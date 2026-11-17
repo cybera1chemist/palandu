@@ -80,6 +80,15 @@ export async function findMatchingUser(id, password) {
   return profiles.find(({ profile }) => profile.id === id && profile.password === password) ?? null;
 }
 
+export async function getUserById(id) {
+  const directories = await fetchUserDirectories();
+  const users = await Promise.all(directories.map(async (directory) => ({
+    directory,
+    profile: await fetchUser(directory),
+  })));
+  return users.find(({ profile }) => profile.id === id) ?? null;
+}
+
 export async function getCurrentUser() {
   const directory = readUserCookie();
   if (!directory) return null;

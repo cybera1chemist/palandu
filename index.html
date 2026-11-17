@@ -77,6 +77,27 @@
           <div class="workspace-items" id="workspace-items" aria-live="polite"></div>
         </section>
 
+        <section class="messages-view" id="messages-view" aria-label="消息" hidden>
+          <aside class="conversation-sidebar" aria-label="对话列表">
+            <h1>消息</h1>
+            <div class="conversation-list" id="conversation-list"></div>
+          </aside>
+          <section class="chat-panel" aria-label="对话内容">
+            <header class="chat-header">
+              <div class="user-avatar chat-header-avatar" id="chat-contact-avatar"></div>
+              <h2 id="chat-contact-name"></h2>
+            </header>
+            <ol class="chat-messages" id="chat-messages" aria-live="polite"></ol>
+            <div class="message-compose">
+              <label class="visually-hidden" for="message-draft">输入消息</label>
+              <textarea id="message-draft" placeholder="输入消息..." rows="1"></textarea>
+              <button class="send-message-button" type="button" aria-label="发送消息">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-8zM11 13l5-5"/></svg>
+              </button>
+            </div>
+          </section>
+        </section>
+
         <section class="profile-view" id="profile-view" aria-labelledby="profile-nickname" hidden>
           <header class="profile-header">
             <div class="user-avatar profile-avatar" id="profile-avatar"></div>
@@ -119,11 +140,19 @@
           </dl>
         </section>
 
-        <section class="placeholder-view" id="placeholder-view" hidden>
-          <h1 id="placeholder-title"></h1>
-        </section>
       </main>
     </div>
+    <dialog class="download-dialog" id="file-download-dialog" aria-labelledby="download-dialog-title">
+      <div class="download-dialog-content">
+        <h2 id="download-dialog-title">下载文件</h2>
+        <p>是否要下载该文件？</p>
+        <p class="download-file-name" id="download-file-name"></p>
+        <div class="download-dialog-actions">
+          <button class="dialog-cancel-button" id="download-cancel" type="button">取消</button>
+          <button class="primary-button dialog-confirm-button" id="download-confirm" type="button">确认下载</button>
+        </div>
+      </div>
+    </dialog>
     <script type="module" src="./assets/js/home.js"></script>
   </body>
 </html>

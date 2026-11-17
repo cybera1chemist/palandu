@@ -1,14 +1,15 @@
 import { clearUserCookie, getCurrentUser, renderAvatar } from "./auth.js";
 import { loadAnnouncements, renderAnnouncementList } from "./announcements.js";
 import { initializeWorkspace } from "./workspace.js";
+import { initializeMessages } from "./messages.js";
 
 const mainContent = document.querySelector(".main-content");
 const homeView = document.querySelector("#home-view");
 const announcementsView = document.querySelector("#announcements-view");
 const workspaceView = document.querySelector("#workspace-view");
+const messagesView = document.querySelector("#messages-view");
+const chatMessages = document.querySelector("#chat-messages");
 const profileView = document.querySelector("#profile-view");
-const placeholderView = document.querySelector("#placeholder-view");
-const placeholderTitle = document.querySelector("#placeholder-title");
 const topbarAvatar = document.querySelector("#user-avatar");
 const profileAvatar = document.querySelector("#profile-avatar");
 const navItems = document.querySelectorAll(".nav-item[data-section]");
@@ -20,10 +21,12 @@ function renderSection(section) {
   homeView.hidden = section !== "主页";
   announcementsView.hidden = section !== "公告";
   workspaceView.hidden = section !== "空间";
+  messagesView.hidden = section !== "消息";
   profileView.hidden = section !== "我";
-  placeholderView.hidden = section !== "消息";
-  if (!placeholderView.hidden) {
-    placeholderTitle.textContent = section;
+  if (section === "消息") {
+    requestAnimationFrame(() => {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
   }
 }
 
@@ -110,6 +113,24 @@ try {
       workspaceError.setAttribute("role", "alert");
       workspaceError.textContent = error.message;
       document.querySelector("#workspace-items").replaceChildren(workspaceError);
+    }
+
+    try {
+      await initializeMessages(currentUser.directory, currentUser.profile, {
+        conversationList: document.querySelector("#conversation-list"),
+        contactAvatar: document.querySelector("#chat-contact-avatar"),
+        contactName: document.querySelector("#chat-contact-name"),
+        chatMessages: document.querySelector("#chat-messages"),
+        downloadDialog: document.querySelector("#file-download-dialog"),
+        downloadCancel: document.querySelector("#download-cancel"),
+        downloadConfirm: document.querySelector("#download-confirm"),
+      });
+    } catch (error) {
+      const messageError = document.createElement("li");
+      messageError.className = "page-error";
+      messageError.setAttribute("role", "alert");
+      messageError.textContent = error.message;
+      document.querySelector("#chat-messages").replaceChildren(messageError);
     }
 
     try {
