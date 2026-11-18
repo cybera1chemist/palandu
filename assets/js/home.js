@@ -105,7 +105,8 @@ try {
         (id) => {
           renderSection("空间");
           navigateToWorkspaceItem(id);
-        }
+        },
+        document.querySelector("#workspace-password-dialog")
       );
     } catch (error) {
       const workspaceError = document.createElement("p");

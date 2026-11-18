@@ -992,6 +992,30 @@ button {
   height: 40px;
 }
 
+.password-form {
+  margin: 0;
+}
+
+.password-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+}
+
+.password-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.password-error {
+  margin: 10px 0 0 !important;
+  color: #a04444 !important;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

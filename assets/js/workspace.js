@@ -27,7 +27,11 @@ function validateItems(items, path = "items") {
       !isNonEmptyString(item.fileType) ||
       typeof item.openable !== "boolean" ||
       typeof item.shared !== "boolean" ||
-      !isNonEmptyString(item.creator)
+      !isNonEmptyString(item.creator) ||
+      ((item.passwordHint !== undefined || item.target !== undefined) &&
+        (!isNonEmptyString(item.passwordHint) ||
+          typeof item.target !== "string" ||
+          !/^[\w-]+(?:\/[\w-]+)*\.html$/.test(item.target)))
     ) {
       throw new Error(`空间数据格式无效：${itemPath} 文件信息不完整。`);
     }
@@ -112,7 +116,7 @@ function renderRecentFiles(container, items, onSelect) {
   });
 }
 
-function createWorkspaceItem(item, onOpenFolder) {
+function createWorkspaceItem(item, onOpenFolder, onOpenProtectedFile) {
   const button = document.createElement("button");
   button.className = `workspace-item ${item.type}-item`;
   button.type = "button";
@@ -131,7 +135,12 @@ function createWorkspaceItem(item, onOpenFolder) {
     creator.textContent = `创建者：${item.creator}`;
     details.append(creator);
     button.dataset.itemId = item.id;
-    button.setAttribute("aria-disabled", "true");
+    if (item.passwordHint) {
+      button.setAttribute("aria-label", `输入密码以打开文件：${item.title}`);
+      button.addEventListener("click", () => onOpenProtectedFile(item));
+    } else {
+      button.setAttribute("aria-disabled", "true");
+    }
   } else {
     button.addEventListener("click", () => onOpenFolder(item));
     button.setAttribute("aria-label", `打开文件夹：${item.name}`);
@@ -139,6 +148,48 @@ function createWorkspaceItem(item, onOpenFolder) {
 
   button.append(icon, details);
   return button;
+}
+
+function getYesterdayPassword() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const month = String(yesterday.getMonth() + 1).padStart(2, "0");
+  const day = String(yesterday.getDate()).padStart(2, "0");
+  return `${month}${day}`;
+}
+
+function createPasswordPrompt(dialog) {
+  const form = dialog.querySelector("#workspace-password-form");
+  const hint = dialog.querySelector("#workspace-password-hint");
+  const input = dialog.querySelector("#workspace-password-input");
+  const error = dialog.querySelector("#workspace-password-error");
+  const cancel = dialog.querySelector("#workspace-password-cancel");
+  let expectedPassword = "";
+  let target = "";
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (input.value !== expectedPassword) {
+      error.hidden = false;
+      input.select();
+      return;
+    }
+
+    dialog.close();
+    window.location.assign(new URL(`../../${target}`, import.meta.url));
+  });
+
+  cancel.addEventListener("click", () => dialog.close());
+
+  return (item) => {
+    expectedPassword = getYesterdayPassword();
+    target = item.target;
+    hint.textContent = `密码提示：${item.passwordHint}`;
+    input.value = "";
+    error.hidden = true;
+    dialog.showModal();
+    input.focus();
+  };
 }
 
 function createBreadcrumb(label, onClick, current = false) {
@@ -156,10 +207,12 @@ export async function initializeWorkspace(
   breadcrumbs,
   container,
   recentFiles,
-  onSelectRecentFile
+  onSelectRecentFile,
+  passwordDialog
 ) {
   const rootItems = await loadWorkspace(directory);
   renderRecentFiles(recentFiles, rootItems, onSelectRecentFile);
+  const openProtectedFile = createPasswordPrompt(passwordDialog);
   const path = [];
 
   function render() {
@@ -199,10 +252,14 @@ export async function initializeWorkspace(
     const grid = document.createElement("div");
     grid.className = "workspace-grid";
     items.forEach((item) => {
-      grid.append(createWorkspaceItem(item, (folder) => {
-        path.push(folder);
-        render();
-      }));
+      grid.append(createWorkspaceItem(
+        item,
+        (folder) => {
+          path.push(folder);
+          render();
+        },
+        openProtectedFile
+      ));
     });
     container.append(grid);
   }

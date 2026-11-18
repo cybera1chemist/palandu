@@ -153,6 +153,28 @@
         </div>
       </div>
     </dialog>
+    <dialog class="download-dialog" id="workspace-password-dialog" aria-labelledby="workspace-password-title">
+      <form class="download-dialog-content password-form" id="workspace-password-form">
+        <h2 id="workspace-password-title">输入密码</h2>
+        <p id="workspace-password-hint"></p>
+        <label class="visually-hidden" for="workspace-password-input">文件密码</label>
+        <input
+          class="password-input"
+          id="workspace-password-input"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]{4}"
+          maxlength="4"
+          autocomplete="off"
+          required
+        >
+        <p class="password-error" id="workspace-password-error" role="alert" hidden>密码错误，请重试。</p>
+        <div class="download-dialog-actions">
+          <button class="dialog-cancel-button" id="workspace-password-cancel" type="button">取消</button>
+          <button class="primary-button dialog-confirm-button" type="submit">确认</button>
+        </div>
+      </form>
+    </dialog>
     <script type="module" src="./assets/js/home.js"></script>
   </body>
 </html>

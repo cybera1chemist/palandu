@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <title>天悲地哀</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #000;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+      }
+
+      .memorial {
+        position: relative;
+        width: min(100vw, 177.99vh);
+        aspect-ratio: 1675 / 941;
+      }
+
+      .memorial-background {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .candle {
+        position: absolute;
+        top: 26%;
+        width: clamp(36px, 5vw, 60px);
+        height: auto;
+      }
+
+      .candle--left {
+        left: 35%;
+        transform: translateX(-50%);
+      }
+
+      .candle--right {
+        right: 35%;
+        transform: translateX(50%);
+      }
+
+    </style>
+  </head>
+  <body>
+    <main class="memorial" aria-label="纪念画面">
+      <img class="memorial-background" src="./background.png" alt="天悲地哀">
+      <img class="candle candle--left" src="./gif/candle.gif" alt="" aria-hidden="true">
+      <img class="candle candle--right" src="./gif/candle.gif" alt="" aria-hidden="true">
+    </main>
+
+    <audio id="memorial-music" src="./哀乐.mp3" autoplay loop preload="auto"></audio>
+    <script>
+      const music = document.querySelector("#memorial-music");
+      music.play().catch(() => {});
+    </script>
+  </body>
+</html>
