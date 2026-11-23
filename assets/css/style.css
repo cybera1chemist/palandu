@@ -482,12 +482,16 @@ button {
 
 .workspace-item svg.workspace-file-icon--document,
 .recent-file svg.workspace-file-icon--document {
-  stroke: #4285f4;
+  color: #4285f4;
 }
 
 .workspace-item svg.workspace-file-icon--spreadsheet,
 .recent-file svg.workspace-file-icon--spreadsheet {
-  stroke: #34a853;
+  color: #34a853;
+}
+
+.workspace-item svg.workspace-folder-icon {
+  color: #8d7999;
 }
 
 .workspace-item-details {
@@ -848,7 +852,8 @@ button {
   height: 34px;
   flex: 0 0 34px;
   fill: none;
-  stroke: #d56666;
+  color: #d56666;
+  stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.7;
@@ -1282,4 +1287,173 @@ button {
   .login-card {
     padding: 32px 24px 28px;
   }
+}
+
+.home-page .user-avatar {
+  border-radius: 2px;
+}
+
+.home-page .nav-item {
+  border-radius: 2px;
+}
+
+.home-page .nav-item.is-active {
+  border-left: 3px solid var(--accent);
+}
+
+.home-page .main-content > section > h1 {
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+}
+
+.home-page .dashboard-card,
+.home-page .profile-header,
+.home-page .profile-details,
+.home-page .workspace-items,
+.home-page .announcement-card,
+.home-page .messages-view {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.home-page .dashboard-card {
+  border-top-width: 3px;
+}
+
+.home-page .dashboard-card h2 {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+.home-page .recent-file,
+.home-page .recent-announcement-card,
+.home-page .workspace-item {
+  border-radius: 2px;
+}
+
+.home-page .profile-header {
+  border-top-width: 3px;
+}
+
+.home-page .profile-details {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.home-page .profile-row {
+  border-bottom-color: var(--border);
+}
+
+.home-page .workspace-grid {
+  gap: 0;
+}
+
+.home-page .workspace-item {
+  min-height: 66px;
+  border-width: 0 0 1px;
+}
+
+.home-page .workspace-item:last-child {
+  border-bottom: 0;
+}
+
+.home-page .announcement-card {
+  border-left-width: 3px;
+}
+
+.home-page .conversation-item {
+  border-radius: 2px;
+}
+
+.home-page .conversation-item.is-active {
+  border-left: 3px solid var(--accent);
+}
+
+.home-page .chat-date span {
+  border-radius: 2px;
+}
+
+.home-page .message-bubble,
+.home-page .attachment-card {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.home-page .message-compose textarea,
+.home-page .password-input {
+  border-radius: 2px;
+}
+
+.home-page .send-message-button,
+.home-page .primary-button {
+  border-radius: 2px;
+}
+
+.home-page .download-dialog {
+  border-radius: 2px;
+  box-shadow: 0 12px 32px rgba(22, 24, 29, 0.2);
+}
+
+.home-page .dialog-cancel-button,
+.home-page .download-file-name {
+  border-radius: 2px;
+}
+
+.home-page :focus-visible {
+  outline-color: var(--accent);
+}
+
+body.login-page {
+  background-image:
+    linear-gradient(rgba(41, 38, 45, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 38, 45, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 38%, rgba(169, 136, 185, 0.12), transparent 38%),
+    #f7f6f8;
+  background-size: 24px 24px;
+}
+
+.login-page .login-card {
+  position: relative;
+  border-top-width: 5px;
+  border-radius: 2px;
+  box-shadow: 0 8px 24px rgba(48, 37, 53, 0.08);
+}
+
+.login-page .login-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 16px;
+}
+
+.login-page .login-card h1 {
+  margin-bottom: 26px;
+  font-size: 22px;
+  letter-spacing: 0.12em;
+}
+
+.login-page .login-card label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.login-page .login-card input {
+  border-radius: 2px;
+}
+
+.login-page .primary-button {
+  border-radius: 2px;
+  letter-spacing: 0.12em;
+}
+
+.login-page .welcome-avatar {
+  border-radius: 2px;
+}
+
+.workspace-item svg,
+.recent-file svg,
+.attachment-card > svg,
+.send-message-button svg {
+  stroke-linecap: square;
+  stroke-linejoin: miter;
 }

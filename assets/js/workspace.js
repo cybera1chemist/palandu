@@ -54,30 +54,40 @@ async function loadWorkspace(directory) {
   return workspace.items;
 }
 
-function createFolderIcon() {
+function createIconAsset(filename, iconId, className) {
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  icon.classList.add(...className.split(" "));
+  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("aria-hidden", "true");
+
+  const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  use.setAttribute("href", `./assets/icons/${filename}.svg#${iconId}`);
+  icon.append(use);
+  return icon;
+}
+
+function createFolderIcon(item) {
+  if (item.id === "recycle-bin" || item.name === "回收站") {
+    return createIconAsset("folder-trash_bin", "icon-folder-trash-bin", "workspace-folder-icon");
+  }
+
   const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   icon.setAttribute("viewBox", "0 0 24 24");
   icon.setAttribute("aria-hidden", "true");
 
   const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M3 6.5A1.5 1.5 0 0 1 4.5 5h5l2 2h8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z");
+  path.setAttribute("d", "M3 5h7l2 2h9v12H3zM3 9h18");
   icon.append(path);
   return icon;
 }
 
 function createFileIcon(fileType) {
-  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  icon.classList.add("workspace-file-icon", `workspace-file-icon--${fileType}`);
-  icon.setAttribute("viewBox", "0 0 24 24");
-  icon.setAttribute("aria-hidden", "true");
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  const iconPath = fileType === "spreadsheet"
-    ? "M6 3.5h8l4 4v13H6zM14 3.5v5h5M9 12h6M9 15h6M9 18h6M12 12v6M15 12v6"
-    : "M6 3.5h8l4 4v13H6zM14 3.5v5h5M9 13h6m-6 3h6";
-  path.setAttribute("d", iconPath);
-  icon.append(path);
-  return icon;
+  const isSpreadsheet = fileType === "spreadsheet";
+  return createIconAsset(
+    isSpreadsheet ? "file-sheet" : "file-text",
+    isSpreadsheet ? "icon-file-sheet" : "icon-file-text",
+    `workspace-file-icon workspace-file-icon--${fileType}`
+  );
 }
 
 function getFiles(items) {
@@ -121,7 +131,7 @@ function createWorkspaceItem(item, onOpenFolder, onOpenProtectedFile) {
   button.className = `workspace-item ${item.type}-item`;
   button.type = "button";
 
-  const icon = item.type === "folder" ? createFolderIcon() : createFileIcon(item.fileType);
+  const icon = item.type === "folder" ? createFolderIcon(item) : createFileIcon(item.fileType);
   const details = document.createElement("span");
   details.className = "workspace-item-details";
   const title = document.createElement("span");

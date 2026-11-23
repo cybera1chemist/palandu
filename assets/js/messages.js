@@ -78,11 +78,12 @@ async function loadConversation(directory, filename) {
 
 function createFileIcon() {
   const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  icon.classList.add("attachment-file-icon");
   icon.setAttribute("viewBox", "0 0 24 24");
   icon.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M6 3.5h8l4 4v13H6zM14 3.5v5h5M9 13h6m-6 3h6");
-  icon.append(path);
+  const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  use.setAttribute("href", "./assets/icons/file-text.svg#icon-file-text");
+  icon.append(use);
   return icon;
 }
 
