@@ -234,6 +234,10 @@ export async function initializeMessages(directory, self, elements) {
   function selectConversation(selected) {
     elements.conversationList.querySelectorAll(".conversation-item")
       .forEach((item) => item.classList.toggle("is-active", item === selected.button));
+    elements.onTargetConversationChange?.(
+      directory === "user1" &&
+      selected.conversation.participantId === "external-mengmeng"
+    );
     elements.contactName.textContent = selected.contact.profile.nickname;
     renderContactAvatar(elements.contactAvatar, selected.contact);
     renderMessages(selected.conversation, self, {

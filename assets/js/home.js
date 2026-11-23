@@ -13,6 +13,7 @@ const profileView = document.querySelector("#profile-view");
 const topbarAvatar = document.querySelector("#user-avatar");
 const profileAvatar = document.querySelector("#profile-avatar");
 const navItems = document.querySelectorAll(".nav-item[data-section]");
+let isTargetConversationOpen = false;
 
 function renderSection(section) {
   navItems.forEach((item) => {
@@ -23,6 +24,10 @@ function renderSection(section) {
   workspaceView.hidden = section !== "空间";
   messagesView.hidden = section !== "消息";
   profileView.hidden = section !== "我";
+  document.documentElement.classList.toggle(
+    "is-message-inverted",
+    section === "消息" && isTargetConversationOpen
+  );
   if (section === "消息") {
     requestAnimationFrame(() => {
       chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -125,6 +130,13 @@ try {
         downloadDialog: document.querySelector("#file-download-dialog"),
         downloadCancel: document.querySelector("#download-cancel"),
         downloadConfirm: document.querySelector("#download-confirm"),
+        onTargetConversationChange: (isTargetConversation) => {
+          isTargetConversationOpen = isTargetConversation;
+          document.documentElement.classList.toggle(
+            "is-message-inverted",
+            !messagesView.hidden && isTargetConversationOpen
+          );
+        },
       });
     } catch (error) {
       const messageError = document.createElement("li");

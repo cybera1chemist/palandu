@@ -20,6 +20,10 @@
   display: none !important;
 }
 
+html.is-message-inverted {
+  filter: invert(1);
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
