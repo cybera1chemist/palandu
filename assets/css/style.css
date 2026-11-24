@@ -20,8 +20,67 @@
   display: none !important;
 }
 
-html.is-message-inverted {
-  filter: invert(1);
+html.is-message-dark {
+  --border: #514a54;
+  --muted: #c4bdc8;
+  --accent-light: #29232e;
+  color-scheme: dark;
+}
+
+html.is-message-dark,
+html.is-message-dark body,
+html.is-message-dark .main-content,
+html.is-message-dark .topbar,
+html.is-message-dark .sidebar,
+html.is-message-dark .messages-view,
+html.is-message-dark .conversation-sidebar,
+html.is-message-dark .chat-panel,
+html.is-message-dark .chat-header,
+html.is-message-dark .message-compose,
+html.is-message-dark .download-dialog,
+html.is-message-dark .chat-image-dialog,
+html.is-message-dark .dialog-cancel-button,
+html.is-message-dark .attachment-card,
+html.is-message-dark .chat-unlock-button,
+html.is-message-dark .chat-date span,
+html.is-message-dark .message-compose textarea {
+  background: #000;
+}
+
+html.is-message-dark body,
+html.is-message-dark .nav-item,
+html.is-message-dark .nav-item.is-active,
+html.is-message-dark .chat-unlock-button,
+html.is-message-dark .dialog-cancel-button,
+html.is-message-dark .message-compose textarea,
+html.is-message-dark .download-dialog-content > p,
+html.is-message-dark .chat-download-status p {
+  color: #eee;
+}
+
+html.is-message-dark .nav-item:hover,
+html.is-message-dark .conversation-item:hover,
+html.is-message-dark .attachment-card:hover {
+  background: #201d22;
+}
+
+html.is-message-dark .conversation-item.is-active,
+html.is-message-dark .nav-item.is-active {
+  background: var(--accent-light);
+}
+
+html.is-message-dark .user-avatar {
+  background: #29232e;
+  border-color: var(--border);
+  color: #eee;
+}
+
+html.is-message-dark .message-compose textarea::placeholder {
+  color: var(--muted);
+}
+
+html.is-message-dark .password-error {
+  color: #ffb3b3 !important;
 }
 
 body {
@@ -769,6 +828,84 @@ button {
   font-size: 12px;
 }
 
+.chat-unlock,
+.chat-system-notice {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chat-unlock-button {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: #765d84;
+  cursor: pointer;
+}
+
+.chat-unlock-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.chat-unlock-digit {
+  width: 52px;
+  height: 52px;
+  border: 1px solid #777;
+  border-radius: 2px;
+  color: #111;
+  text-align: center;
+  font-size: 22px;
+}
+
+.chat-unlock-digit--red { background: #e85a5a; }
+.chat-unlock-digit--yellow { background: #f5dc57; }
+.chat-unlock-digit--white { background: #fff; }
+
+.chat-image-button {
+  max-width: min(280px, 100%);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.chat-image-button img {
+  display: block;
+  max-width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+}
+
+.chat-image-dialog {
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.chat-image-dialog::backdrop {
+  background: rgba(31, 26, 34, 0.7);
+}
+
+.chat-image-dialog img {
+  display: block;
+  max-width: calc(100vw - 66px);
+  max-height: calc(100vh - 100px);
+  margin-top: 12px;
+  object-fit: contain;
+}
+
+.chat-download-status p {
+  color: #554f58;
+  font-size: 14px;
+}
+
+.chat-download-status progress {
+  width: 100%;
+}
+
 .chat-message {
   display: flex;
   align-items: flex-start;
@@ -842,6 +979,15 @@ button {
 .attachment-card:hover {
   border-color: #d3c3dc;
   background: #fbf9fc;
+}
+
+.program-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.program-link > svg {
+  color: #8d7999;
 }
 
 .attachment-card:focus-visible,

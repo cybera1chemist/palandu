@@ -77,7 +77,9 @@ export async function findMatchingUser(id, password) {
     directory,
     profile: await fetchUser(directory),
   })));
-  return profiles.find(({ profile }) => profile.id === id && profile.password === password) ?? null;
+  return profiles.find(({ profile }) =>
+    profile.id === id && profile.password.toLowerCase() === password.toLowerCase()
+  ) ?? null;
 }
 
 export async function getUserById(id) {

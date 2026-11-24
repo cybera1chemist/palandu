@@ -175,6 +175,39 @@
         </div>
       </form>
     </dialog>
+    <dialog class="download-dialog" id="chat-unlock-dialog" aria-labelledby="chat-unlock-title">
+      <form class="download-dialog-content">
+        <h2 id="chat-unlock-title">输入密码解锁聊天记录</h2>
+        <div class="chat-unlock-inputs">
+          <label><span class="visually-hidden">第一个数字，红色</span><input class="chat-unlock-digit chat-unlock-digit--red" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" autocomplete="off" required></label>
+          <label><span class="visually-hidden">第二个数字，黄色</span><input class="chat-unlock-digit chat-unlock-digit--yellow" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" autocomplete="off" required></label>
+          <label><span class="visually-hidden">第三个数字，白色</span><input class="chat-unlock-digit chat-unlock-digit--white" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" autocomplete="off" required></label>
+        </div>
+        <p class="password-error chat-unlock-error" role="alert" hidden></p>
+        <div class="download-dialog-actions">
+          <button class="dialog-cancel-button" type="button" data-cancel>取消</button>
+          <button class="primary-button dialog-confirm-button" type="submit">解锁</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog class="chat-image-dialog" id="chat-image-dialog" aria-label="查看图片">
+      <button class="dialog-cancel-button" type="button" data-close>关闭</button>
+      <img id="chat-image-preview" alt="">
+    </dialog>
+    <dialog class="download-dialog" id="chat-large-file-dialog" aria-labelledby="chat-large-file-title">
+      <div class="download-dialog-content">
+        <h2 id="chat-large-file-title">初代炼金术师笔记</h2>
+        <p>文件过大，无法在线预览，请下载后查看。</p>
+        <div class="chat-download-status" data-download-status hidden>
+          <p>正在下载，预计仅需3年即可下载完成，请耐心等待。</p>
+          <progress value="0" max="100" aria-label="下载进度"></progress>
+        </div>
+        <div class="download-dialog-actions">
+          <button class="dialog-cancel-button" type="button" data-close>关闭</button>
+          <button class="primary-button dialog-confirm-button" type="button" data-download>下载</button>
+        </div>
+      </div>
+    </dialog>
     <script type="module" src="./assets/js/home.js"></script>
   </body>
 </html>

@@ -25,7 +25,7 @@ function renderSection(section) {
   messagesView.hidden = section !== "消息";
   profileView.hidden = section !== "我";
   document.documentElement.classList.toggle(
-    "is-message-inverted",
+    "is-message-dark",
     section === "消息" && isTargetConversationOpen
   );
   if (section === "消息") {
@@ -130,10 +130,14 @@ try {
         downloadDialog: document.querySelector("#file-download-dialog"),
         downloadCancel: document.querySelector("#download-cancel"),
         downloadConfirm: document.querySelector("#download-confirm"),
+        unlockDialog: document.querySelector("#chat-unlock-dialog"),
+        imageDialog: document.querySelector("#chat-image-dialog"),
+        imagePreview: document.querySelector("#chat-image-preview"),
+        largeFileDialog: document.querySelector("#chat-large-file-dialog"),
         onTargetConversationChange: (isTargetConversation) => {
           isTargetConversationOpen = isTargetConversation;
           document.documentElement.classList.toggle(
-            "is-message-inverted",
+            "is-message-dark",
             !messagesView.hidden && isTargetConversationOpen
           );
         },

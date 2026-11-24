@@ -5,6 +5,8 @@ function validateConversation(conversation) {
     !conversation ||
     typeof conversation.id !== "string" ||
     typeof conversation.participantId !== "string" ||
+    (conversation.unlockPassword !== undefined &&
+      !/^[0-9]{3}$/.test(conversation.unlockPassword)) ||
     (conversation.participant !== undefined &&
       (typeof conversation.participant?.nickname !== "string" ||
         typeof conversation.participant?.avatar !== "string" ||
@@ -19,15 +21,28 @@ function validateConversation(conversation) {
       message &&
       typeof message.id === "string" &&
       typeof message.dateLabel === "string" &&
-      typeof message.senderId === "string";
+      (message.locked === undefined || typeof message.locked === "boolean") &&
+      (!message.locked || typeof conversation.unlockPassword === "string") &&
+      (message.type === "system" || typeof message.senderId === "string");
     const validText = message?.type === "text" && typeof message.text === "string";
+    const validSystem = message?.type === "system" && typeof message.text === "string";
+    const validImage = message?.type === "image" &&
+      typeof message.image?.path === "string" &&
+      /^assets\/images\/[^/\\]+\.png$/i.test(message.image.path) &&
+      typeof message.image.alt === "string";
+    const validLink = message?.type === "link" &&
+      typeof message.text === "string" &&
+      message.url === "https://cybera1chemist.github.io/palandu-database/";
+    const validUnavailableFile = message?.type === "unavailable-file" &&
+      typeof message.text === "string";
     const validFile =
       message?.type === "file" &&
       typeof message.file?.path === "string" &&
       message.file.path.startsWith("files/") &&
       typeof message.file.nameTemplate === "string";
 
-    if (!validBase || (!validText && !validFile)) {
+    if (!validBase || (!validText && !validSystem && !validImage && !validLink &&
+      !validUnavailableFile && !validFile)) {
       throw new Error(`消息数据格式无效：${message?.id ?? "未知消息"}。`);
     }
   });
@@ -76,13 +91,13 @@ async function loadConversation(directory, filename) {
   return conversation;
 }
 
-function createFileIcon() {
+function createFileIcon(filename = "file-text") {
   const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   icon.classList.add("attachment-file-icon");
   icon.setAttribute("viewBox", "0 0 24 24");
   icon.setAttribute("aria-hidden", "true");
   const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  use.setAttribute("href", "./assets/icons/file-text.svg#icon-file-text");
+  use.setAttribute("href", `./assets/icons/${filename}.svg#icon-${filename}`);
   icon.append(use);
   return icon;
 }
@@ -108,6 +123,7 @@ function renderContactAvatar(element, contact) {
 
 function getMessagePreview(message, sender) {
   if (message.type === "file") return `${sender.nickname} 发送了文件`;
+  if (message.type === "image") return `${sender.nickname} 发送了图片`;
   return message.text;
 }
 
@@ -135,7 +151,9 @@ function createAttachmentMessage(message, sender, recipient, dialog) {
   title.title = filename;
   const subtitle = document.createElement("span");
   subtitle.className = "attachment-subtitle";
-  subtitle.textContent = "PDF 文件";
+  subtitle.textContent = message.file.path.toLowerCase().endsWith(".docx")
+    ? "DOCX 文件"
+    : "PDF 文件";
   details.append(title, subtitle);
   card.append(icon, details);
 
@@ -150,11 +168,23 @@ function createAttachmentMessage(message, sender, recipient, dialog) {
   return card;
 }
 
-function renderMessages(conversation, self, contact, chatMessages, dialog) {
+function renderMessages(conversation, self, contact, chatMessages, elements, unlocked, onUnlock) {
   chatMessages.replaceChildren();
   let previousDate = null;
 
-  conversation.messages.forEach((message) => {
+  if (!unlocked && conversation.messages.some((message) => message.locked)) {
+    const row = document.createElement("li");
+    row.className = "chat-unlock";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "chat-unlock-button";
+    button.textContent = "输入密码解锁之前的聊天记录";
+    button.addEventListener("click", onUnlock);
+    row.append(button);
+    chatMessages.append(row);
+  }
+
+  conversation.messages.filter((message) => unlocked || !message.locked).forEach((message) => {
     if (message.dateLabel !== previousDate) {
       const date = document.createElement("li");
       date.className = "chat-date";
@@ -163,6 +193,14 @@ function renderMessages(conversation, self, contact, chatMessages, dialog) {
       date.append(label);
       chatMessages.append(date);
       previousDate = message.dateLabel;
+    }
+
+    if (message.type === "system") {
+      const notice = document.createElement("li");
+      notice.className = "chat-system-notice";
+      notice.textContent = message.text;
+      chatMessages.append(notice);
+      return;
     }
 
     const isOwn = message.senderId === self.id;
@@ -186,10 +224,49 @@ function renderMessages(conversation, self, contact, chatMessages, dialog) {
     senderName.textContent = sender.nickname;
     content.append(senderName);
 
-    const bubble = message.type === "file"
-      ? createAttachmentMessage(message, sender, isOwn ? contact.profile : self, dialog)
-      : document.createElement("p");
-    if (message.type === "text") {
+    let bubble;
+    if (message.type === "file") {
+      bubble = createAttachmentMessage(message, sender, isOwn ? contact.profile : self, elements.downloadDialog);
+    } else if (message.type === "image") {
+      bubble = document.createElement("button");
+      bubble.type = "button";
+      bubble.className = "chat-image-button";
+      bubble.setAttribute("aria-label", `查看大图：${message.image.alt}`);
+      const image = document.createElement("img");
+      image.src = new URL(`../../${message.image.path}`, import.meta.url).href;
+      image.alt = message.image.alt;
+      bubble.append(image);
+      bubble.addEventListener("click", () => {
+        elements.imagePreview.src = image.src;
+        elements.imagePreview.alt = image.alt;
+        elements.imageDialog.showModal();
+      });
+    } else if (message.type === "link") {
+      bubble = document.createElement("a");
+      bubble.className = "attachment-card program-link";
+      bubble.href = message.url;
+      bubble.target = "_blank";
+      bubble.rel = "noopener noreferrer";
+      bubble.append(createFileIcon("program"));
+      const title = document.createElement("span");
+      title.className = "attachment-title";
+      title.textContent = message.text;
+      bubble.append(title);
+    } else if (message.type === "unavailable-file") {
+      bubble = document.createElement("button");
+      bubble.type = "button";
+      bubble.className = "attachment-card";
+      bubble.append(createFileIcon());
+      const title = document.createElement("span");
+      title.className = "attachment-title";
+      title.textContent = message.text;
+      bubble.append(title);
+      bubble.addEventListener("click", () => {
+        elements.largeFileDialog.querySelector("[data-download-status]").hidden = true;
+        elements.largeFileDialog.showModal();
+      });
+    } else {
+      bubble = document.createElement("p");
       bubble.className = "message-bubble";
       bubble.textContent = message.text;
     }
@@ -208,6 +285,7 @@ export async function initializeMessages(directory, self, elements) {
 
     const conversation = await loadConversation(directory, entry.file);
     if (!conversation.messages.every((message) =>
+      message.type === "system" ||
       message.senderId === self.id || message.senderId === conversation.participantId
     )) {
       throw new Error("对话中包含未知的发送者。");
@@ -230,8 +308,76 @@ export async function initializeMessages(directory, self, elements) {
   }));
 
   elements.conversationList.replaceChildren();
+  let selectedConversation = null;
+  const unlockForm = elements.unlockDialog.querySelector("form");
+  const unlockInputs = Array.from(unlockForm.querySelectorAll("input"));
+  const unlockError = unlockForm.querySelector(".chat-unlock-error");
+
+  function storageKey(conversation) {
+    return `palandu:messages-unlocked:${directory}:${conversation.id}`;
+  }
+
+  function showConversation(selected, preserveScroll = false) {
+    let unlocked;
+    try {
+      unlocked = !selected.conversation.unlockPassword ||
+        localStorage.getItem(storageKey(selected.conversation)) === "true";
+    } catch (error) {
+      const notice = document.createElement("li");
+      notice.className = "page-error";
+      notice.setAttribute("role", "alert");
+      notice.textContent = "无法读取聊天记录解锁进度，请检查浏览器存储设置。";
+      elements.chatMessages.replaceChildren(notice);
+      return;
+    }
+    const oldHeight = elements.chatMessages.scrollHeight;
+    const oldTop = elements.chatMessages.scrollTop;
+    renderMessages(selected.conversation, self, {
+      ...selected.contact,
+      selfDirectory: directory,
+    }, elements.chatMessages, elements, unlocked, () => {
+      unlockInputs.forEach((input) => { input.value = ""; });
+      unlockError.hidden = true;
+      elements.unlockDialog.showModal();
+      unlockInputs[0].focus();
+    });
+    if (preserveScroll) {
+      elements.chatMessages.scrollTop = oldTop + elements.chatMessages.scrollHeight - oldHeight;
+    }
+  }
+
+  unlockForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!selectedConversation) return;
+    if (unlockInputs.map((input) => input.value).join("") !== selectedConversation.conversation.unlockPassword) {
+      unlockError.textContent = "密码错误，请重试。";
+      unlockError.hidden = false;
+      return;
+    }
+    try {
+      localStorage.setItem(storageKey(selectedConversation.conversation), "true");
+    } catch (error) {
+      unlockError.textContent = "无法保存解锁进度，请检查浏览器存储设置。";
+      unlockError.hidden = false;
+      return;
+    }
+    elements.unlockDialog.close();
+    showConversation(selectedConversation, true);
+  });
+  unlockInputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+      if (input.value && index < unlockInputs.length - 1) unlockInputs[index + 1].focus();
+    });
+  });
+  elements.unlockDialog.querySelector("[data-cancel]").addEventListener("click", () => elements.unlockDialog.close());
+  elements.imageDialog.querySelector("[data-close]").addEventListener("click", () => elements.imageDialog.close());
+  elements.largeFileDialog.querySelector("[data-close]").addEventListener("click", () => elements.largeFileDialog.close());
+  elements.largeFileDialog.querySelector("[data-download]").addEventListener("click", () => {
+    elements.largeFileDialog.querySelector("[data-download-status]").hidden = false;
+  });
 
   function selectConversation(selected) {
+    selectedConversation = selected;
     elements.conversationList.querySelectorAll(".conversation-item")
       .forEach((item) => item.classList.toggle("is-active", item === selected.button));
     elements.onTargetConversationChange?.(
@@ -240,10 +386,7 @@ export async function initializeMessages(directory, self, elements) {
     );
     elements.contactName.textContent = selected.contact.profile.nickname;
     renderContactAvatar(elements.contactAvatar, selected.contact);
-    renderMessages(selected.conversation, self, {
-      ...selected.contact,
-      selfDirectory: directory,
-    }, elements.chatMessages, elements.downloadDialog);
+    showConversation(selected);
   }
 
   conversations.forEach((item) => {
@@ -261,7 +404,7 @@ export async function initializeMessages(directory, self, elements) {
 
     if (item.entry.openable) {
       name.textContent = item.contact.profile.nickname;
-      const lastMessage = item.conversation.messages[item.conversation.messages.length - 1];
+      const lastMessage = [...item.conversation.messages].reverse().find((message) => !message.locked);
       preview.textContent = lastMessage
         ? getMessagePreview(
           lastMessage,
