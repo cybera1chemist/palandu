@@ -1,0 +1,184 @@
+{
+  "id": "msg-2",
+  "participantId": "external-small-dimple",
+  "participant": {
+    "nickname": "小酒窝",
+    "avatar": "assets/images/avatars/小酒窝.png"
+  },
+  "messages": [
+    {
+      "id": "message-001",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "老大，这次的传送报告已写好，我上传到空间里了"
+    },
+    {
+      "id": "message-002",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "好"
+    },
+    {
+      "id": "message-003",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "你小组里的那几个新人，这次行动的表现你觉得怎么样？"
+    },
+    {
+      "id": "message-004",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "报告老大，大部分的表现都挺好的，就是丧彪的数学似乎不太好"
+    },
+    {
+      "id": "message-005",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "怎么说？"
+    },
+    {
+      "id": "message-006",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "报告老大，我在向她说明具体执行流程的时候，她似乎对同心圆、半径、圆周等概念的理解略感困惑，我费了一些功夫才向她解释清楚“把目标炼金术师带到以法阵中心为圆心、以仪式设置的特定参数为半径的圆周上”是什么意思。"
+    },
+    {
+      "id": "message-007",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "过程不重要，最终结果没问题就行。我先去看看报告。"
+    },
+    {
+      "id": "message-008",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "好、好的老大……"
+    },
+    {
+      "id": "message-009",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "你们怎么办的事啊？一共只有五个收束对象，你告诉我有三个出现了意外情况？"
+    },
+    {
+      "id": "message-010",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "报告老大！我们全组都对此感到非常抱歉！主要是有一些新人不熟悉工作，我已经批评教育过他们了！"
+    },
+    {
+      "id": "message-011",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "真是无语 (#`皿´)"
+    },
+    {
+      "id": "message-012",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "那只小猫你们应该已经送回去了吧？"
+    },
+    {
+      "id": "message-013",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "咱们收容所可没有给小猫准备的猫粮猫砂，那些炼金术师过得惨一点没关系，可不能把小猫委屈到了"
+    },
+    {
+      "id": "message-014",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "报告老大，我们询问了对象W-17-C，他表示自己由于被突然传送受到惊吓导致记忆断片，想不起来这只小猫原来是哪家的了，目前我们正在全力调查小猫来源中！"
+    },
+    {
+      "id": "message-015",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "这是小猫的照片，请您过目！"
+    },
+    {
+      "id": "message-016",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "image",
+      "image": {
+        "path": "assets/images/街景.jpg",
+        "alt": "街景"
+      }
+    },
+    {
+      "id": "message-017",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "……这是什么？"
+    },
+    {
+      "id": "message-018",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "非常抱歉老大！我我我我我太紧张了手抖点错了！这张是对象W-17-C在与小猫玩耍时随手拍摄的附近照片！"
+    },
+    {
+      "id": "message-019",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "image",
+      "image": {
+        "path": "assets/images/猫.jpg",
+        "alt": "小猫"
+      }
+    },
+    {
+      "id": "message-020",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "你不用这么紧张，人人都会有犯错的时候嘛"
+    },
+    {
+      "id": "message-021",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "你不会以为就因为这么点小事，我就会把你列入清洗名单了吧？哈哈哈哈哈哈哈"
+    },
+    {
+      "id": "message-022",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "不敢不敢！整个权杖部的员工都知道老大您最宽宏大量了！"
+    },
+    {
+      "id": "message-023",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "好了好了，继续去工作吧，赶快把这些情况都处理了"
+    },
+    {
+      "id": "message-024",
+      "dateLabel": "三周前",
+      "senderId": "external-small-dimple",
+      "type": "text",
+      "text": "好的老大！老大再见！"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ function validateConversation(conversation) {
     (conversation.participant !== undefined &&
       (typeof conversation.participant?.nickname !== "string" ||
         typeof conversation.participant?.avatar !== "string" ||
-        !/^assets\/images\/avatars\/[^/\\]+\.png$/.test(conversation.participant.avatar))) ||
+        !/^assets\/images\/avatars\/[^/\\]+\.(?:png|jpe?g)$/i.test(conversation.participant.avatar))) ||
     !Array.isArray(conversation.messages)
   ) {
     throw new Error("消息数据格式无效。");
@@ -28,7 +28,7 @@ function validateConversation(conversation) {
     const validSystem = message?.type === "system" && typeof message.text === "string";
     const validImage = message?.type === "image" &&
       typeof message.image?.path === "string" &&
-      /^assets\/images\/[^/\\]+\.png$/i.test(message.image.path) &&
+      /^assets\/images\/[^/\\]+\.(?:png|jpe?g)$/i.test(message.image.path) &&
       typeof message.image.alt === "string";
     const validLink = message?.type === "link" &&
       typeof message.text === "string" &&

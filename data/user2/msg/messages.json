@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "openable": true,
+      "file": "msg-3.json"
+    },
+    {
+      "openable": true,
+      "file": "msg-2.json"
+    }
+  ]
+}
