@@ -2,11 +2,11 @@
   "items": [
     {
       "openable": true,
-      "file": "msg-3.json"
+      "file": "msg-2.json"
     },
     {
       "openable": true,
-      "file": "msg-2.json"
+      "file": "msg-3.json"
     }
   ]
 }

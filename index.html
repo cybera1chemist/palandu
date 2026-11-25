@@ -191,7 +191,11 @@
       </form>
     </dialog>
     <dialog class="chat-image-dialog" id="chat-image-dialog" aria-label="查看图片">
-      <button class="dialog-cancel-button" type="button" data-close>关闭</button>
+      <button class="chat-image-close" type="button" data-close aria-label="关闭图片">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18"/>
+        </svg>
+      </button>
       <img id="chat-image-preview" alt="">
     </dialog>
     <dialog class="download-dialog" id="chat-large-file-dialog" aria-labelledby="chat-large-file-title">

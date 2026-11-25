@@ -168,7 +168,16 @@ function createAttachmentMessage(message, sender, recipient, dialog) {
   return card;
 }
 
-function renderMessages(conversation, self, contact, chatMessages, elements, unlocked, onUnlock) {
+function renderMessages(
+  conversation,
+  self,
+  contact,
+  chatMessages,
+  elements,
+  unlocked,
+  onUnlock,
+  onOpenImage
+) {
   chatMessages.replaceChildren();
   let previousDate = null;
 
@@ -236,11 +245,7 @@ function renderMessages(conversation, self, contact, chatMessages, elements, unl
       image.src = new URL(`../../${message.image.path}`, import.meta.url).href;
       image.alt = message.image.alt;
       bubble.append(image);
-      bubble.addEventListener("click", () => {
-        elements.imagePreview.src = image.src;
-        elements.imagePreview.alt = image.alt;
-        elements.imageDialog.showModal();
-      });
+      bubble.addEventListener("click", () => onOpenImage(image.src, image.alt));
     } else if (message.type === "link") {
       bubble = document.createElement("a");
       bubble.className = "attachment-card program-link";
@@ -312,6 +317,71 @@ export async function initializeMessages(directory, self, elements) {
   const unlockForm = elements.unlockDialog.querySelector("form");
   const unlockInputs = Array.from(unlockForm.querySelectorAll("input"));
   const unlockError = unlockForm.querySelector(".chat-unlock-error");
+  let imageScale = 1;
+  let imageOffsetX = 0;
+  let imageOffsetY = 0;
+  let imageDrag = null;
+
+  function updateImageTransform() {
+    elements.imagePreview.style.transform =
+      `translate(calc(-50% + ${imageOffsetX}px), calc(-50% + ${imageOffsetY}px)) scale(${imageScale})`;
+  }
+
+  function openImagePreview(src, alt) {
+    elements.imagePreview.src = src;
+    elements.imagePreview.alt = alt;
+    imageScale = 1;
+    imageOffsetX = 0;
+    imageOffsetY = 0;
+    elements.imagePreview.classList.remove("is-dragging");
+    updateImageTransform();
+    elements.imageDialog.showModal();
+  }
+
+  elements.imageDialog.addEventListener("wheel", (event) => {
+    event.preventDefault();
+    const previousScale = imageScale;
+    const nextScale = Math.min(6, Math.max(1, previousScale * (event.deltaY < 0 ? 1.15 : 1 / 1.15)));
+    if (nextScale === previousScale) return;
+
+    const bounds = elements.imageDialog.getBoundingClientRect();
+    const pointerX = event.clientX - (bounds.left + bounds.width / 2);
+    const pointerY = event.clientY - (bounds.top + bounds.height / 2);
+    const ratio = nextScale / previousScale;
+    imageOffsetX = pointerX * (1 - ratio) + imageOffsetX * ratio;
+    imageOffsetY = pointerY * (1 - ratio) + imageOffsetY * ratio;
+    imageScale = nextScale;
+    updateImageTransform();
+  }, { passive: false });
+
+  elements.imagePreview.addEventListener("pointerdown", (event) => {
+    if (imageScale <= 1) return;
+    imageDrag = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      offsetX: imageOffsetX,
+      offsetY: imageOffsetY,
+    };
+    elements.imagePreview.setPointerCapture(event.pointerId);
+    elements.imagePreview.classList.add("is-dragging");
+  });
+  elements.imagePreview.addEventListener("pointermove", (event) => {
+    if (!imageDrag || event.pointerId !== imageDrag.pointerId) return;
+    imageOffsetX = imageDrag.offsetX + event.clientX - imageDrag.x;
+    imageOffsetY = imageDrag.offsetY + event.clientY - imageDrag.y;
+    updateImageTransform();
+  });
+  function stopImageDrag(event) {
+    if (!imageDrag || event.pointerId !== imageDrag.pointerId) return;
+    imageDrag = null;
+    elements.imagePreview.classList.remove("is-dragging");
+  }
+  elements.imagePreview.addEventListener("pointerup", stopImageDrag);
+  elements.imagePreview.addEventListener("pointercancel", stopImageDrag);
+  elements.imageDialog.addEventListener("click", (event) => {
+    if (event.target === elements.imageDialog) elements.imageDialog.close();
+  });
 
   function storageKey(conversation) {
     return `palandu:messages-unlocked:${directory}:${conversation.id}`;
@@ -336,11 +406,11 @@ export async function initializeMessages(directory, self, elements) {
       ...selected.contact,
       selfDirectory: directory,
     }, elements.chatMessages, elements, unlocked, () => {
-      unlockInputs.forEach((input) => { input.value = ""; });
-      unlockError.hidden = true;
-      elements.unlockDialog.showModal();
-      unlockInputs[0].focus();
-    });
+        unlockInputs.forEach((input) => { input.value = ""; });
+        unlockError.hidden = true;
+        elements.unlockDialog.showModal();
+        unlockInputs[0].focus();
+      }, openImagePreview);
     if (preserveScroll) {
       elements.chatMessages.scrollTop = oldTop + elements.chatMessages.scrollHeight - oldHeight;
     }
