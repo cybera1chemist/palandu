@@ -1,0 +1,59 @@
+{
+  "id": "msg-1",
+  "participantId": "external-cups-knight",
+  "participant": {
+    "nickname": "圣杯骑士",
+    "avatar": "assets/images/avatars/圣杯骑士.jpg"
+  },
+  "messages": [
+    {
+      "id": "message-001",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "这次收容的一批炼金术师中，有一个人偶尔会在小芋头上发一些旅游照片"
+    },
+    {
+      "id": "message-002",
+      "dateLabel": "三周前",
+      "senderId": "external-cups-knight",
+      "type": "text",
+      "text": "so？"
+    },
+    {
+      "id": "message-003",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "这么重要的情报，你们部门的人跟我们交接的时候怎么没说啊！"
+    },
+    {
+      "id": "message-004",
+      "dateLabel": "三周前",
+      "senderId": "external-cups-knight",
+      "type": "text",
+      "text": "不是吧，你自己带的小组执行出岔子了，你怪到别的部门负责人头上？"
+    },
+    {
+      "id": "message-005",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "我哪有这么说啊！"
+    },
+    {
+      "id": "message-006",
+      "dateLabel": "三周前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "我只是在提醒你，让你的手下把工作做好点！"
+    },
+    {
+      "id": "message-007",
+      "dateLabel": "三周前",
+      "senderId": "external-cups-knight",
+      "type": "text",
+      "text": "原话一字不返还给你！"
+    }
+  ]
+}

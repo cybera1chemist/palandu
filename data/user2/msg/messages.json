@@ -2,11 +2,19 @@
   "items": [
     {
       "openable": true,
+      "file": "msg-1.json"
+    },
+    {
+      "openable": true,
       "file": "msg-2.json"
     },
     {
       "openable": true,
       "file": "msg-3.json"
+    },
+    {
+      "openable": true,
+      "file": "msg-4.json"
     }
   ]
 }

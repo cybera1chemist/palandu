@@ -1,0 +1,101 @@
+{
+  "id": "msg-4",
+  "participantId": "external-swords-queen",
+  "participant": {
+    "nickname": "宝剑皇后",
+    "avatar": "assets/images/avatars/宝剑皇后.jpg"
+  },
+  "messages": [
+    {
+      "id": "message-001",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "您好"
+    },
+    {
+      "id": "message-002",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "请问高威胁炼金术师的收容相关工作主要是由您负责的吧？"
+    },
+    {
+      "id": "message-003",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "是的"
+    },
+    {
+      "id": "message-004",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "请问您有什么事？"
+    },
+    {
+      "id": "message-005",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "马上又要到定期迁移数据库的服务器位置的时候了，这次我想换一个安全一些的位置"
+    },
+    {
+      "id": "message-006",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "听说收容中心的防守很严密，警卫人员很充足，所以……"
+    },
+    {
+      "id": "message-007",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "可以倒是可以"
+    },
+    {
+      "id": "message-008",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "不过那里位置比较偏僻，会有影响吗？"
+    },
+    {
+      "id": "message-009",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "而且那里还是收束仪式法阵的中心，在发动仪式的时候，会不会对服务器造成什么影响呢？"
+    },
+    {
+      "id": "message-010",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "我都已经调查过了，没有问题的"
+    },
+    {
+      "id": "message-011",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "好啊，那我这边就没有别的问题了"
+    },
+    {
+      "id": "message-012",
+      "dateLabel": "五个月前",
+      "senderId": "external-swords-queen",
+      "type": "text",
+      "text": "好，您这边通过了就行，剩下的事宜我来安排"
+    },
+    {
+      "id": "message-013",
+      "dateLabel": "五个月前",
+      "senderId": "21431785",
+      "type": "text",
+      "text": "加油~"
+    }
+  ]
+}
