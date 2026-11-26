@@ -1,7 +1,8 @@
-import { clearUserCookie, getCurrentUser, renderAvatar } from "./auth.js";
+import { getCurrentUser, renderAvatar } from "./auth.js";
 import { loadAnnouncements, renderAnnouncementList } from "./announcements.js";
 import { initializeWorkspace } from "./workspace.js";
 import { initializeMessages } from "./messages.js";
+import { initializeNavigation } from "./navigation.js";
 
 const mainContent = document.querySelector(".main-content");
 const homeView = document.querySelector("#home-view");
@@ -10,13 +11,11 @@ const workspaceView = document.querySelector("#workspace-view");
 const messagesView = document.querySelector("#messages-view");
 const chatMessages = document.querySelector("#chat-messages");
 const profileView = document.querySelector("#profile-view");
-const topbarAvatar = document.querySelector("#user-avatar");
 const profileAvatar = document.querySelector("#profile-avatar");
-const navItems = document.querySelectorAll(".nav-item[data-section]");
 let isTargetConversationOpen = false;
 
 function renderSection(section) {
-  navItems.forEach((item) => {
+  document.querySelectorAll(".nav-item[data-section]").forEach((item) => {
     item.classList.toggle("is-active", item.dataset.section === section);
   });
   homeView.hidden = section !== "主页";
@@ -51,7 +50,7 @@ function navigateToAnnouncement(id) {
 function renderProfile(directory, profile) {
   document.querySelector("#welcome-nickname").textContent = profile.nickname;
   document.querySelector("#profile-nickname").textContent = profile.nickname;
-  renderAvatar(topbarAvatar, directory, profile.nickname);
+  renderAvatar(document.querySelector("#user-avatar"), directory, profile.nickname);
   renderAvatar(profileAvatar, directory, profile.nickname);
 
   for (const field of ["id", "gender", "age", "department", "level"]) {
@@ -84,21 +83,21 @@ document.querySelectorAll("[data-open-section]").forEach((button) => {
   button.addEventListener("click", () => renderSection(button.dataset.openSection));
 });
 
-document.querySelector("#logout-button").addEventListener("click", () => {
-  clearUserCookie();
-  window.location.replace("./login.html");
-});
-
 try {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     window.location.replace("./login.html");
   } else {
-    renderProfile(currentUser.directory, currentUser.profile);
-    renderSection("主页");
-    navItems.forEach((item) => {
-      item.addEventListener("click", () => renderSection(item.dataset.section));
+    const requestedSection = new URLSearchParams(window.location.search).get("section");
+    const initialSection = ["主页", "公告", "空间", "消息", "我"].includes(requestedSection)
+      ? requestedSection
+      : "主页";
+    await initializeNavigation({ currentUser, activeSection: initialSection });
+    document.addEventListener("palandu:navigate", (event) => {
+      renderSection(event.detail.section);
     });
+    renderProfile(currentUser.directory, currentUser.profile);
+    renderSection(initialSection);
 
     try {
       let navigateToWorkspaceItem = () => false;

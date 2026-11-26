@@ -546,11 +546,19 @@ button {
 .workspace-item svg.workspace-file-icon--document,
 .recent-file svg.workspace-file-icon--document {
   color: #4285f4;
+  stroke: currentColor;
 }
 
 .workspace-item svg.workspace-file-icon--spreadsheet,
 .recent-file svg.workspace-file-icon--spreadsheet {
   color: #34a853;
+  stroke: currentColor;
+}
+
+.workspace-item svg.workspace-file-icon--pdf,
+.recent-file svg.workspace-file-icon--pdf {
+  color: #d34b4b;
+  stroke: currentColor;
 }
 
 .workspace-item svg.workspace-folder-icon {

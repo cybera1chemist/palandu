@@ -24,10 +24,14 @@ function validateItems(items, path = "items") {
     if (
       item.type !== "file" ||
       !isNonEmptyString(item.title) ||
-      !isNonEmptyString(item.fileType) ||
+      !["document", "spreadsheet", "pdf"].includes(item.fileType) ||
       typeof item.openable !== "boolean" ||
       typeof item.shared !== "boolean" ||
       !isNonEmptyString(item.creator) ||
+      (item.openable && !item.passwordHint &&
+        (!isSafeWorkspacePath(item.path) ||
+          (item.fileType === "spreadsheet" && !isSafeWorkspacePath(item.previewPath)) ||
+          (item.fileType === "pdf" && !item.path.toLowerCase().endsWith(".pdf")))) ||
       ((item.passwordHint !== undefined || item.target !== undefined) &&
         (!isNonEmptyString(item.passwordHint) ||
           typeof item.target !== "string" ||
@@ -36,6 +40,14 @@ function validateItems(items, path = "items") {
       throw new Error(`空间数据格式无效：${itemPath} 文件信息不完整。`);
     }
   });
+}
+
+function isSafeWorkspacePath(path) {
+  return typeof path === "string" &&
+    path.length > 0 &&
+    !path.startsWith("/") &&
+    !path.includes("\\") &&
+    path.split("/").every((part) => part && part !== "." && part !== "..");
 }
 
 async function loadWorkspace(directory) {
@@ -126,7 +138,17 @@ function renderRecentFiles(container, items, onSelect) {
   });
 }
 
-function createWorkspaceItem(item, onOpenFolder, onOpenProtectedFile) {
+function openWorkspaceFile(directory, item) {
+  const target = item.fileType === "spreadsheet" ? item.previewPath : item.path;
+  const encodedPath = target.split("/").map(encodeURIComponent).join("/");
+  window.open(
+    new URL(`../../data/${encodeURIComponent(directory)}/workspace/${encodedPath}`, import.meta.url).href,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+function createWorkspaceItem(item, onOpenFolder, onOpenProtectedFile, directory) {
   const button = document.createElement("button");
   button.className = `workspace-item ${item.type}-item`;
   button.type = "button";
@@ -148,6 +170,9 @@ function createWorkspaceItem(item, onOpenFolder, onOpenProtectedFile) {
     if (item.passwordHint) {
       button.setAttribute("aria-label", `输入密码以打开文件：${item.title}`);
       button.addEventListener("click", () => onOpenProtectedFile(item));
+    } else if (item.openable) {
+      button.setAttribute("aria-label", `在新标签页预览文件：${item.title}`);
+      button.addEventListener("click", () => openWorkspaceFile(directory, item));
     } else {
       button.setAttribute("aria-disabled", "true");
     }
@@ -268,7 +293,8 @@ export async function initializeWorkspace(
           path.push(folder);
           render();
         },
-        openProtectedFile
+        openProtectedFile,
+        directory
       ));
     });
     container.append(grid);

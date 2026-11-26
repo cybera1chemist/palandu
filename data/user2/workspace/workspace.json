@@ -1,0 +1,67 @@
+{
+  "items": [
+    {
+      "id": "cleaning-lists",
+      "type": "folder",
+      "name": "清洗名单",
+      "items": [
+        {
+          "id": "cleaning-list-batch-00124",
+          "type": "file",
+          "title": "清洗名单批次00124",
+          "fileType": "spreadsheet",
+          "openable": true,
+          "shared": true,
+          "creator": "权杖皇后",
+          "path": "清洗名单-批次00124.xlsx",
+          "previewPath": "previews/清洗名单-批次00124.html"
+        },
+        {
+          "id": "cleaning-list-batch-00123",
+          "type": "file",
+          "title": "清洗名单批次00123",
+          "fileType": "spreadsheet",
+          "openable": true,
+          "shared": true,
+          "creator": "权杖皇后",
+          "path": "清洗名单-批次00123.xlsx",
+          "previewPath": "previews/清洗名单-批次00123.html"
+        },
+        {
+          "id": "cleaning-list-batch-00122",
+          "type": "file",
+          "title": "清洗名单批次00122",
+          "fileType": "spreadsheet",
+          "openable": true,
+          "shared": true,
+          "creator": "权杖皇后",
+          "path": "清洗名单-批次00122.xlsx",
+          "previewPath": "previews/清洗名单-批次00122.html"
+        }
+      ]
+    },
+    {
+      "id": "containment-ritual",
+      "type": "folder",
+      "name": "收束仪式",
+      "items": [
+        {
+          "id": "w-17-transfer-report",
+          "type": "file",
+          "title": "W-17批次收容对象转移执行报告",
+          "fileType": "pdf",
+          "openable": true,
+          "shared": true,
+          "creator": "小酒窝",
+          "path": "W-17批次收容对象转移执行报告.pdf"
+        }
+      ]
+    },
+    {
+      "id": "recycle-bin",
+      "type": "folder",
+      "name": "回收站",
+      "items": []
+    }
+  ]
+}
