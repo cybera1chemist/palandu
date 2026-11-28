@@ -1,4 +1,4 @@
-import { initializeNavigation } from "./navigation.js?v=topbar-only-1";
+import { initializeNavigation } from "./navigation.js?v=navigation-component-2";
 
 try {
   await initializeNavigation({ includeSidebar: false });

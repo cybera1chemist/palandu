@@ -36,7 +36,7 @@ function validateAnnouncement(announcement) {
     !Array.isArray(announcement.content) ||
     !announcement.content.every((block) =>
       block?.type === "paragraph"
-        ? isNonEmptyString(block.text)
+        ? typeof block.text === "string"
         : block?.type === "list" &&
           Array.isArray(block.items) &&
           block.items.every((item) =>

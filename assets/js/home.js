@@ -1,8 +1,8 @@
 import { getCurrentUser, renderAvatar } from "./auth.js";
-import { loadAnnouncements, renderAnnouncementList } from "./announcements.js";
+import { loadAnnouncements, renderAnnouncementList } from "./announcements.js?v=bold-text-1";
 import { initializeWorkspace } from "./workspace.js";
 import { initializeMessages } from "./messages.js";
-import { initializeNavigation } from "./navigation.js";
+import { initializeNavigation } from "./navigation.js?v=navigation-component-2";
 
 const mainContent = document.querySelector(".main-content");
 const homeView = document.querySelector("#home-view");
