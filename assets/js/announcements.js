@@ -92,6 +92,27 @@ function getAnnouncementText(announcement) {
   }).join(" ");
 }
 
+function appendFormattedText(container, text) {
+  const emphasisPattern = /\*([^*]+)\*/g;
+  let cursor = 0;
+  let match;
+
+  while ((match = emphasisPattern.exec(text)) !== null) {
+    if (match.index > cursor) {
+      container.append(document.createTextNode(text.slice(cursor, match.index)));
+    }
+
+    const emphasis = document.createElement("strong");
+    emphasis.textContent = match[1];
+    container.append(emphasis);
+    cursor = emphasisPattern.lastIndex;
+  }
+
+  if (cursor < text.length) {
+    container.append(document.createTextNode(text.slice(cursor)));
+  }
+}
+
 function createAnnouncementBody(announcement) {
   const body = document.createElement("div");
   body.className = "announcement-body";
@@ -99,7 +120,7 @@ function createAnnouncementBody(announcement) {
   announcement.content.forEach((block) => {
     if (block.type === "paragraph") {
       const paragraph = document.createElement("p");
-      paragraph.textContent = block.text;
+      appendFormattedText(paragraph, block.text);
       body.append(paragraph);
       return;
     }
@@ -108,8 +129,9 @@ function createAnnouncementBody(announcement) {
     block.items.forEach((item) => {
       const listItem = document.createElement("li");
       const label = document.createElement("strong");
-      label.textContent = `${item.label}：`;
-      listItem.append(label, document.createTextNode(item.text));
+      appendFormattedText(label, `${item.label}：`);
+      listItem.append(label);
+      appendFormattedText(listItem, item.text);
       list.append(listItem);
     });
     body.append(list);
@@ -145,7 +167,7 @@ export function renderAnnouncementList(
       const title = document.createElement("h3");
       title.textContent = announcement.title;
       const excerpt = document.createElement("p");
-      excerpt.textContent = getAnnouncementText(announcement);
+      appendFormattedText(excerpt, getAnnouncementText(announcement));
       const published = document.createElement("span");
       published.className = "announcement-time";
       published.textContent = announcement.published.label;
